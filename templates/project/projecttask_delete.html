@@ -1,0 +1,85 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Delete Project Task {% endblock title %}
+
+{% block content %}
+
+<!-- Page content -->
+<div class="container-fluid mt--12 pt-5">
+  
+    <div class="row">
+        <div class="col-xl-12 order-xl-1">
+            <div class="card">    
+                <div class="card-body">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="modal fade show d-block" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel"><i class="fas fa-exclamation-triangle mr-2 text-warning"></i>Delete Project Task</h5>
+                            {% if request.GET.next %}
+                            <a href="{{ request.GET.next }}" class="close" data-dismiss="modal" aria-label="Close">
+                            {% else %}
+                            <a href="{% url 'projectmodulelist' %}" class="close" data-dismiss="modal" aria-label="Close">
+                            {% endif %}
+                            {% comment %} <a href="{{request.META.HTTP_REFERER|escape}}" class="close" data-dismiss="modal" aria-label="Close"> {% endcomment %}
+                                <span aria-hidden="true">&times;</span>
+                            </a>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-danger font-weight-bold">Do you really want to delete these records? This process can't be reverse.</p>
+                                <h4 class="text-warning bg-dark">Title : <b class="text-info">{{ projecttaskdelete.title }}</b></h4>
+                                <h4 class="text-warning bg-dark">Module : <b class="text-info">{{ projecttaskdelete.module }}</b></h4>
+                                <h4 class="text-warning bg-dark">Project : <b class="text-info">{{ projecttaskdelete.project }}</b></h4>
+                                <h4 class="text-warning bg-dark">Description : <b class="text-info">{{ projecttaskdelete.description }}</b></h4>
+                                <h4 class="text-warning bg-dark">Status : <b class="text-info">{{ projecttaskdelete.status }}</b></h4>
+                                <h4 class="text-warning bg-dark">Priority : <b class="text-info">{{ projecttaskdelete.priority }}</b></h4>
+                                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                            </div>
+                            <div class="modal-footer">
+                                {% if request.GET.next %}
+                                <a href="{{ request.GET.next }}" class="btn btn-secondary">Close</a>
+                                {% else %}
+                                <a href="{% url 'projecttasklist' %}" class="btn btn-secondary">Close</a>
+                                {% endif %}
+                            {% comment %} <a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-secondary">Close</a> {% endcomment %}
+                            <input type="submit" value="Delete" class="btn btn-danger">
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+      </div>
+
+  {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+{% endblock javascripts %}

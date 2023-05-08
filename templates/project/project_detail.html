@@ -1,0 +1,444 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Project Detail {% endblock title %}
+
+{% block content %}
+
+<!-- Header -->
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        {% if request.GET.next %}
+        <a href="{{ request.GET.next }}" class="btn btn-warning mt-2"><i class="ni ni-bold-left mr-2"></i> Back</a>
+        {% else %}
+        <a href="{% url 'projectlist' %}" class="btn btn-warning mt-2"><i class="ni ni-bold-left mr-2"></i> Back</a>
+        {% endif %}
+        {% comment %} <a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-warning mt-2"><i class="ni ni-bold-left mr-2"></i> Back</a> {% endcomment %}
+        <!-- Card stats -->
+        <div class="row pt-2">
+            <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-1">Project status</h5>
+                        <span class="h2 font-weight-bold mb-0 badge badge-dot mr-4">
+                            <i class="bg-warning"></i> pending
+                        </span>
+                        
+                        <div class="progress-wrapper">
+                            <div class="progress-info">
+                              <div class="progress-label">
+                                <span>Task completed</span>
+                              </div>
+                              <div class="progress-percentage">
+                                <span>60%</span>
+                              </div>
+                            </div>
+                            <div class="progress">
+                              <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                            </div>
+                          </div>
+                    </div>
+                    
+                  </div>
+                  {% if projectdetail %}
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Since</span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projectdetail.startDate }} </span>
+                  </p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-5 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Project information</h5>
+                      {% comment %} <span class="h2 font-weight-bold mb-0">2,356</span> {% endcomment %}
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
+                        <i class="fa fa-file-code"></i>
+                      </div>
+                    </div>
+                  </div>
+                  {% if projectdetail %}
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Title : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projectdetail.title }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Description : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projectdetail.description }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Technology : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projectdetail.technology }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Estimated Hours : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projectdetail.estimatedHours }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Start Date : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projectdetail.startDate }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Completion Date : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projectdetail.completionDate }} </span>
+                  </p>
+                </div>
+                {% if request.user.is_manager == True %}
+                <div class="ms-auto text-end d-flex flex-row-reverse">
+                  <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="{% url 'projectdelete' projectdetail.id %}?next={{ request.path|urlencode }}"><i class="fas fa-trash mr-2"></i>Delete</a>
+                  <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'projectupdate' projectdetail.id %}?next={{ request.path|urlencode }}"><i class="fas fa-edit mr-2"></i>Edit</a>
+                </div>
+                {% endif %}
+                {% else %}
+                <p class="mt-3 mb-0 text-sm text-center">
+                  <span class="text-nowrap font-weight-bold text-danger"> No Details available! </span>
+                </p>
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Project Team</h5>
+                      {% if request.user.is_manager == True %}
+                      <span class="h2 font-weight-bold mb-0"><a class="btn-sm btn-success text-white px-3 mb-0" href="{% url 'projectteamcreate' %}?next={{ request.path|urlencode }}"><i class="fas fa-plus mr-2"></i>Add</a></span>
+                      {% endif %}
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                        <i class="ni ni-single-02"></i>
+                      </div>
+                    </div>
+                  </div>
+                  {% if team %}
+                  {% for t in team %}
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Developer : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ t.user.username }} </span>
+                    <br>
+                    <span class="text-nowrap font-weight-bold mr-1">Email : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ t.user.email }} </span>
+                    {% if request.user.is_manager == True %}
+                    <div class="ms-auto text-end d-flex flex-row-reverse">
+                      <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="{% url 'projectteamdelete' t.id %}?next={{ request.path|urlencode }}"><i class="fas fa-trash mr-2"></i>Delete</a>
+                      <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'projectteamupdate' t.id %}?next={{ request.path|urlencode }}"><i class="fas fa-edit mr-2"></i>Edit</a>
+                    </div>
+                    {% endif %}
+                  </p>
+                  
+                  {% endfor %}
+                  
+                  {% else %}
+                  <p class="mt-3 mb-0 text-sm text-center">
+                    <span class="text-nowrap font-weight-bold text-danger"> No User Created! </span>
+                  </p>
+                  {% endif %}
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% comment %} Module Detail {% endcomment %}
+    <!-- Page content -->
+  <div class="container-fluid mt--6 bg-primary">
+    <div class="row">
+      <div class="col">
+        <div class="card bg-light">
+          <!-- Card header -->
+          <div class="card-header border-0 row bg-dark">
+            <h1 class="mb-0 col text-white">All Modules</h1>
+            {% if request.user.is_manager == True %}
+            <a href="{% url 'projectmodulecreate' %}?next={{ request.path|urlencode }}" class="btn btn-white text-dark"><i class="fas fa-plus mr-2"></i>Add New</a>
+            {% endif %}
+          </div>
+        {% if module %}
+        <div class="row pt-4">
+          {% for m in module %}
+          <div class="col-xl-6 col-md-6">
+            <div class="card card-stats mr-2 ml-2">
+              <!-- Card body -->
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Module information</h5>
+                    {% comment %} <span class="h2 font-weight-bold mb-0"><a class="btn-sm btn-warning text-white px-3 mb-0" href="{% url 'projectmodulecreate' %}?next={{ request.path|urlencode }}"><i class="fas fa-plus mr-2"></i>Add</a></span> {% endcomment %}
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
+                      <i class="ni ni-collection"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-sm">
+                  <span class="text-nowrap font-weight-bold mr-1">Project : </span>
+                  <span class="text-nowrap text-success font-weight-bold"> {{ m.project.title }} </span>
+                </p>
+                <p class="mt-3 mb-0 text-sm">
+                  <span class="text-nowrap font-weight-bold mr-1">Module Name : </span>
+                  <span class="text-nowrap text-success font-weight-bold"> {{ m.moduleName }} </span>
+                </p>
+                <p class="mt-3 mb-0 text-sm">
+                  <span class="text-nowrap font-weight-bold mr-1">Description : </span>
+                  <span class="text-nowrap text-success font-weight-bold"> {{ m.description }} </span>
+                </p>
+                <p class="mt-3 mb-0 text-sm">
+                  <span class="text-nowrap font-weight-bold mr-1">Estimated Hours : </span>
+                  <span class="text-nowrap text-success font-weight-bold"> {{ m.estimatedHours }} </span>
+                </p>
+                <p class="mt-3 mb-0 text-sm">
+                  <span class="text-nowrap font-weight-bold mr-1">Status : </span>
+                  <span class="text-nowrap text-success font-weight-bold"> {{ m.status }} </span>
+                </p>
+                <p class="mt-3 mb-0 text-sm">
+                  <span class="text-nowrap font-weight-bold mr-1">Start Date : </span>
+                  <span class="text-nowrap text-success font-weight-bold"> {{ m.startDate }} </span>
+                </p>
+                {% if request.user.is_manager == True %}
+                <div class="ms-auto text-end d-flex flex-row-reverse">
+                  <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="{% url 'projectmoduledelete' m.id %}?next={{ request.path|urlencode }}"><i class="fas fa-trash mr-2"></i>Delete</a>
+                  <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'projectmoduleupdate' m.id %}?next={{ request.path|urlencode }}"><i class="fas fa-edit mr-2"></i>Edit</a>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          
+        {% endfor %}
+        </div>
+        {% else %}
+        <div class="col-xl-6 col-md-6 pt-4">
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Module information</h5>
+                  {% if request.user.is_manager == True %}
+                  <span class="h2 font-weight-bold mb-0"><a class="btn-sm btn-warning text-white px-3 mb-0" href="{% url 'projectmodulecreate' %}?next={{ request.path|urlencode }}"><i class="fas fa-plus mr-2"></i>Add</a></span>
+                  {% endif %}
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                    <i class="ni ni-collection"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-sm text-center">
+                <span class="text-nowrap font-weight-bold text-danger"> No Modules Available! </span>
+              </p>
+              
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+
+
+
+{% comment %} Task Detail {% endcomment %}
+    <!-- Page content -->
+    <div class="container-fluid mt--12 bg-primary">
+      <div class="row">
+        <div class="col">
+          <div class="card bg-light">
+          <!-- Card header -->
+          <div class="card-header border-0 row bg-dark">
+            <h1 class="mb-0 col text-white">All Tasks</h1>
+            {% if request.user.is_manager == True %}
+            <a href="{% url 'projecttaskcreate' %}?next={{ request.path|urlencode }}" class="btn btn-white text-dark"><i class="fas fa-plus mr-2"></i>Add New</a>
+            {% endif %}
+          </div>
+          {% if task %}
+          <div class="row pt-4">
+            {% for t in task %}
+            <div class="col-xl-6 col-md-6">
+              <div class="card card-stats mr-2 ml-2">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Task information</h5>
+                      {% comment %} <span class="h2 font-weight-bold mb-0"><a class="btn-sm btn-warning text-white px-3 mb-0" href="{% url 'projecttaskcreate' %}?next={{ request.path|urlencode }}"><i class="fas fa-plus mr-2"></i>Add</a></span> {% endcomment %}
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-dark text-white rounded-circle shadow">
+                        <i class="ni ni-bullet-list-67"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Title : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ t.title }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Project : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ t.project.title }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Module : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ t.module }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Priority : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ t.priority }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Description : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ t.description }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Status : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ t.status }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Total Minutes : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ t.totalMinutes }} </span>
+                  </p>
+                  {% if request.user.is_manager == True %}
+                  <div class="ms-auto text-end d-flex flex-row-reverse">
+                    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="{% url 'projecttaskdelete' t.id %}?next={{ request.path|urlencode }}"><i class="fas fa-trash mr-2"></i>Delete</a>
+                    <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'projecttaskupdate' t.id %}?next={{ request.path|urlencode }}"><i class="fas fa-edit mr-2"></i>Edit</a>
+                  </div>
+                  {% endif %}
+                </div>
+
+
+                {% if taskuser %}
+                {% for u in taskuser %}
+                {% if u.task_id == t.id %}
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Task User information</h5>
+                      {% if request.user.is_manager == True %}
+                      <span class="h2 font-weight-bold mb-0"><a class="btn-sm btn-success text-white px-3 mb-0" href="{% url 'projecttaskusercreate' %}?next={{ request.path|urlencode }}"><i class="fas fa-plus mr-2"></i>Add</a></span>
+                      {% endif %}
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                        <i class="ni ni-single-02"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">User : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ u.user.username }} </span>
+                    <br>
+                    <span class="text-nowrap font-weight-bold mr-1">Task : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ u.task.title }} </span>
+                    {% if request.user.is_manager == True %}
+                    <div class="ms-auto text-end d-flex flex-row-reverse">
+                      <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="{% url 'projecttaskuserdelete' u.id %}?next={{ request.path|urlencode }}"><i class="fas fa-trash mr-2"></i>Delete</a>
+                      <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'projecttaskuserupdate' u.id %}?next={{ request.path|urlencode }}"><i class="fas fa-edit mr-2"></i>Edit</a>
+                    </div>
+                    {% endif %}
+                  </p>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+                {% else %}
+                
+                
+                <!-- Card body -->
+                <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Task User information</h5>
+                    {% if request.user.is_manager == True %}
+                    <span class="h2 font-weight-bold mb-0"><a class="btn-sm btn-success text-white px-3 mb-0" href="{% url 'projecttaskusercreate' %}?next={{ request.path|urlencode }}"><i class="fas fa-plus mr-2"></i>Add</a></span>
+                    {% endif %}
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                      <i class="ni ni-single-02"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-sm text-center">
+                  <span class="text-nowrap font-weight-bold text-danger"> No Task User Available! </span>
+                </p>
+              </div>
+
+              {% endif %}
+
+              
+
+              </div>
+            </div>
+            
+          {% endfor %}
+          </div>
+          {% else %}
+          <div class="col-xl-6 col-md-6 pt-4">
+            <div class="card card-stats">
+              <!-- Card body -->
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Task information</h5>
+                    {% if request.user.is_manager == True %}
+                    <span class="h2 font-weight-bold mb-0"><a class="btn-sm btn-warning text-white px-3 mb-0" href="{% url 'projecttaskcreate' %}?next={{ request.path|urlencode }}"><i class="fas fa-plus mr-2"></i>Add</a></span>
+                    {% endif %}
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                      <i class="ni ni-collection"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-sm text-center">
+                  <span class="text-nowrap font-weight-bold text-danger"> No Tasks Available! </span>
+                </p>
+                
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    </div>
+
+
+
+  
+  
+
+
+
+  {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+<script src="{% static '/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+{% endblock javascripts %}

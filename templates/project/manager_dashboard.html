@@ -1,0 +1,786 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+  i.active{
+    background-color: #5e72e4 !important;
+  }
+  i.completed{
+    background-color: #2dce89 !important;
+  }
+  i.cancelled{
+    background-color: #f5365c !important;
+  }
+  i.onhold{
+    background-color: #fb6340 !important;
+  }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- Header -->
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">Dashboard</h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item"><a href="{% url 'dashboard' %}"><i class="fas fa-home"></i></a></li>
+              <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
+          <a href="#" class="btn btn-sm btn-neutral">New</a>
+          <a href="#" class="btn btn-sm btn-neutral">Filters</a>
+        </div>
+      </div>
+      <!-- Card stats -->
+      <div class="row">
+        {% if request.user.is_manager == True %}
+        <div class="col-xl-3 col-md-6">
+        {% else %}
+        <div class="col-xl-4 col-md-6">
+        {% endif %}
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Total Projects</h5>
+                  {% if request.user.is_manager == True %}
+                    <span class="h2 font-weight-bold mb-0">{{ projects_count }}</span>
+                  {% else %}
+                    <span class="h2 font-weight-bold mb-0">{{ userprojectcount }}</span>
+                  {% endif %}
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                    <i class="fa fa-file-code"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-sm">
+                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                <span class="text-nowrap">Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% if request.user.is_manager == True %}
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Total users</h5>
+                    <span class="h2 font-weight-bold mb-0">{{ users_count }}</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                    <i class="fa fa-users"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-sm">
+                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                <span class="text-nowrap">Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% if request.user.is_manager == True %}
+        <div class="col-xl-3 col-md-6">
+        {% else %}
+        <div class="col-xl-4 col-md-6">
+        {% endif %}
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  {% if request.user.is_manager == True %}
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Teams</h5>
+                    <span class="h2 font-weight-bold mb-0">{{ projectteam_count }}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                        <i class="fa fa-user"></i>
+                      </div>
+                    </div>
+                    {% else %}
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Modules</h5>
+                    <span class="h2 font-weight-bold mb-0">{{ usermodulecount }}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                        <i class="ni ni-collection"></i>
+                      </div>
+                    </div>
+                  {% endif %}
+              </div>
+              <p class="mt-3 mb-0 text-sm">
+                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                <span class="text-nowrap">Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% if request.user.is_manager == True %}
+        <div class="col-xl-3 col-md-6">
+        {% else %}
+        <div class="col-xl-4 col-md-6">
+        {% endif %}
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Total Tasks</h5>
+                  {% if request.user.is_manager == True %}
+                    <span class="h2 font-weight-bold mb-0">{{ task_count }}</span>
+                  {% else %}
+                    <span class="h2 font-weight-bold mb-0">{{ usertaskcount }}</span>
+                  {% endif %}
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
+                    <i class="ni ni-bullet-list-67"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-sm">
+                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                <span class="text-nowrap">Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% comment %} end of header {% endcomment %}
+
+
+
+{% comment %} Charts {% endcomment %}
+
+<!-- Page content -->
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col-xl-7">
+      <div class="card bg-default">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col">
+              <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
+              <h5 class="h3 text-white mb-0">Project Hours</h5>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Chart -->
+          <div class="chart d-flex justify-content-center">
+            <!-- Chart wrapper -->
+            <canvas id="chart-project-dark" class="chart-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-5">
+      <div class="card">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col">
+              <h6 class="text-uppercase text-muted ls-1 mb-1">Task</h6>
+              <h5 class="h3 mb-0">Task Minutes</h5>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Chart -->
+          <div class="chart d-flex justify-content-center align-items-center">
+            <canvas id="chart-bars" class="chart-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% comment %} end of charts {% endcomment %}
+
+
+
+
+{% comment %} Projects list {% endcomment %}
+<!-- Page content -->
+{% comment %} <div class="container-fluid mt--6"> {% endcomment %}
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <!-- Card header -->
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col-2">
+              <h3 class="mb-0">Latest Projects</h3>
+            </div>
+            <div class="input-group col">
+              <input type="text" id="myInput" onkeyup="searchFromProject()" class="form-control mr-4" placeholder="Search for projects..." title="Type in a search" />
+            </div>
+            <div class="col-2 text-right">
+              <a href="{% url 'projectlist' %}" class="btn btn-sm btn-primary">See all</a>
+            </div>
+          </div>
+        </div>
+        <!-- Light table -->
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush text-center" id="myTable">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col" class="sort" data-sort="name">Project
+                  <a href="?sort_by=title&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                  <a href="?sort_by=title&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                </th>
+                <th scope="col" class="sort" data-sort="budget">Description</th>
+                <th scope="col" class="sort" data-sort="budget">Technology
+                  <a href="?sort_by=technology&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                  <a href="?sort_by=technology&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                </th>
+                <th scope="col" class="sort" data-sort="status">Status
+                  {% comment %} <a href="?sort_by=status&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                  <a href="?sort_by=status&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
+                </th>
+                <th scope="col" class="sort" data-sort="status">Actions</th>
+                {% comment %} <th scope="col">Users</th>
+                <th scope="col" class="sort" data-sort="completion">Completion</th>
+                <th scope="col"></th> {% endcomment %}
+              </tr>
+            </thead>
+            <tbody class="list">
+              {% if project %}
+              {% for project in project %}
+              <tr>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    {% comment %} <a href="#" class="avatar rounded-circle mr-3">
+                      <img alt="Image placeholder" src="/static/assets/img/theme/bootstrap.jpg">
+                    </a> {% endcomment %}
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">{{ project.title }}</span>
+                    </div>
+                  </div>
+                </th>
+                <td class="budget">
+                  {{ project.description }}
+                </td>
+                <td class="budget">
+                  {{ project.technology }}
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                  <i class="bg-warning"></i>
+                  <span class="status">pending</span>
+                  </span>
+                </td>
+                <td class="budget">
+                  <a href="{% url 'projectdetail' project.id %}?next={{ request.path|urlencode }}" class="btn btn-info"><i class="fas fa-info-circle mr-2"></i>Detail</a>
+                  {% if request.user.is_manager == True %}
+                  <a href="{% url 'projectupdate' project.id %}?next={{ request.path|urlencode }}" class="btn btn-primary"><i class="fas fa-edit mr-2"></i>Edit</a>
+                  <a href="{% url 'projectdelete' project.id %}?next={{ request.path|urlencode }}" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Delete</a>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+              {% else %}
+              <tr>
+                <td colspan="5" class="text-center"><h3 class="text-danger">NO DATA FOUND!!</h3></td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% comment %} end of project list {% endcomment %}
+
+
+
+{% comment %} Moduless list {% endcomment %}
+
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <!-- Card header -->
+      <div class="card-header border-0">
+        <div class="row align-items-center">
+          <div class="col-2">
+            <h3 class="mb-0">Latest Modules</h3>
+          </div>
+          <div class="input-group col">
+            <input type="text" id="myInput3" onkeyup="searchFromProject()" class="form-control mr-4" placeholder="Search for moduless..." title="Type in a search" />
+          </div>
+          <div class="col-2 text-right">
+            <a href="{% url 'projectmodulelist' %}" class="btn btn-sm btn-primary">See all</a>
+          </div>
+        </div>
+      </div>
+      <!-- Light table -->
+      <div class="table-responsive">
+        <table class="table align-items-center table-flush text-center" id="myTable3">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col" class="sort" data-sort="name">Project
+                <a href="?sort_by=project&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                <a href="?sort_by=project&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+              </th>
+              <th scope="col" class="sort" data-sort="name">Module
+                <a href="?sort_by=moduleName&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                <a href="?sort_by=moduleName&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+              </th>
+              <th scope="col" class="sort" data-sort="budget">Status
+                <a href="?sort_by=status&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                <a href="?sort_by=status&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+              </th>
+              <th scope="col" class="sort" data-sort="budget">Start Date
+                <a href="?sort_by=startDate&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                <a href="?sort_by=startDate&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+              </th>
+              <th scope="col" class="sort" data-sort="status">Actions</th>
+              {% comment %} <th scope="col">Users</th>
+              <th scope="col" class="sort" data-sort="completion">Completion</th>
+              <th scope="col"></th> {% endcomment %}
+            </tr>
+          </thead>
+          <tbody class="list">
+            {% if usermodule %}
+            {% for module in usermodule %}
+            <tr>
+              <th scope="row">
+                <div class="media align-items-center">
+                  {% comment %} <a href="#" class="avatar rounded-circle mr-3">
+                    <img alt="Image placeholder" src="/static/assets/img/theme/bootstrap.jpg">
+                  </a> {% endcomment %}
+                  <div class="media-body">
+                    <span class="name mb-0 text-sm">{{ module.project.title }}</span>
+                  </div>
+                </div>
+              </th>
+              <td class="budget">
+                {{ module.moduleName }}
+              </td>
+              <td class="budget">
+                <span class="badge badge-dot mr-4">
+                  <i class="{{ module.status|lower|cut:" " }}"></i>
+                  <span class="status">{{ module.status }}</span>
+                </span>
+              </td>
+              <td class="budget">
+                {{ module.startDate }}
+              </td>
+              <td class="budget">
+                <a href="{% url 'projectmoduledetail' module.id %}?next={{ request.path|urlencode }}" class="btn btn-info"><i class="fas fa-info-circle mr-2"></i>Detail</a>
+                {% if request.user.is_manager == True %}
+                <a href="{% url 'projectmoduleupdate' module.id %}?next={{ request.path|urlencode }}" class="btn btn-primary"><i class="fas fa-edit mr-2"></i>Edit</a>
+                <a href="{% url 'projectmoduledelete' module.id %}?next={{ request.path|urlencode }}" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Delete</a>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="5" class="text-center"><h3 class="text-danger">NO DATA FOUND!!</h3></td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% comment %} end of modulelist {% endcomment %}
+
+
+{% comment %} Tasks list {% endcomment %}
+
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <!-- Card header -->
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col-2">
+              <h3 class="mb-0">Latest Tasks</h3>
+            </div>
+            <div class="input-group col">
+              <input type="text" id="myInput1" onkeyup="searchFromProject()" class="form-control mr-4" placeholder="Search for tasks..." title="Type in a search" />
+            </div>
+            <div class="col-2 text-right">
+              <a href="{% url 'projecttasklist' %}" class="btn btn-sm btn-primary">See all</a>
+            </div>
+          </div>
+        </div>
+        <!-- Light table -->
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush text-center" id="myTable1">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col" class="sort" data-sort="name">Title
+                  <a href="?sort_by=title&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                  <a href="?sort_by=title&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                </th>
+                <th scope="col" class="sort" data-sort="name">Project
+                  <a href="?sort_by=project&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                  <a href="?sort_by=project&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                </th>
+                <th scope="col" class="sort" data-sort="budget">Module
+                  <a href="?sort_by=module&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                  <a href="?sort_by=module&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                </th>
+                <th scope="col" class="sort" data-sort="budget">Priority
+                  <a href="?sort_by=priority&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                  <a href="?sort_by=priority&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                </th>
+                <th scope="col" class="sort" data-sort="status">Status
+                  <a href="?sort_by=status&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                  <a href="?sort_by=status&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                </th>
+                <th scope="col" class="sort" data-sort="status">Actions</th>
+                {% comment %} <th scope="col">Users</th>
+                <th scope="col" class="sort" data-sort="completion">Completion</th>
+                <th scope="col"></th> {% endcomment %}
+              </tr>
+            </thead>
+            <tbody class="list">
+              {% if usertask %}
+              {% for project in usertask %}
+              <tr>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    {% comment %} <a href="#" class="avatar rounded-circle mr-3">
+                      <img alt="Image placeholder" src="/static/assets/img/theme/bootstrap.jpg">
+                    </a> {% endcomment %}
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">{{ project.title }}</span>
+                    </div>
+                  </div>
+                </th>
+                <td class="budget">
+                  {{ project.project.title }}
+                </td>
+                <td class="budget">
+                  {{ project.module }}
+                </td>
+                <td class="budget">
+                  {{ project.priority }}
+                </td>
+                
+                <td class="budget">
+                  <span class="badge badge-dot mr-4">
+                    <i class="{{ project.status|lower|cut:" " }}"></i>
+                    <span class="status">{{ project.status }}</span>
+                  </span>
+                </td>
+                <td class="budget">
+                  <a href="{% url 'projecttaskdetail' project.id %}?next={{ request.path|urlencode }}" class="btn btn-info"><i class="fas fa-info-circle mr-2"></i>Detail</a>
+                  {% if request.user.is_manager == True %}
+                  <a href="{% url 'projecttaskupdate' project.id %}?next={{ request.path|urlencode }}" class="btn btn-primary"><i class="fas fa-edit mr-2"></i>Edit</a>
+                  <a href="{% url 'projecttaskdelete' project.id %}?next={{ request.path|urlencode }}" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Delete</a>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+              {% else %}
+              <tr>
+                <td colspan="5" class="text-center"><h3 class="text-danger">NO DATA FOUND!!</h3></td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% comment %} end of tasklist {% endcomment %}
+
+
+
+
+
+
+
+
+
+  {% comment %} team list {% endcomment %}
+  {% if request.user.is_manager == True %}
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <!-- Card header -->
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col-2">
+              <h3 class="mb-0">Project Teams</h3>
+            </div>
+            <div class="input-group col">
+              <input type="text" id="myInput2" onkeyup="searchFromProject()" class="form-control mr-4" placeholder="Search for teams..." title="Type in a search" />
+            </div>
+            <div class="col-2 text-right">
+              <a href="{% url 'projectteamlist' %}" class="btn btn-sm btn-primary">See all</a>
+            </div>
+          </div>
+        </div>
+        <!-- Light table -->
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush text-center" id="myTable2">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col" class="sort" data-sort="budget">User
+                  <a href="?sort_by_user=user&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                  <a href="?sort_by_user=user&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                </th>
+                <th scope="col" class="sort" data-sort="name">Project
+                  <a href="?sort_by_user=project&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                  <a href="?sort_by_user=project&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                </th>
+                <th scope="col" class="sort" data-sort="budget">Technology
+                  {% comment %} <a href="?sort_by_user=technology&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                  <a href="?sort_by_user=technology&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
+                </th>
+                <th scope="col" class="sort" data-sort="status">Status
+                  {% comment %} <a href="?sort_by_user=status&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                  <a href="?sort_by_user=status&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
+                </th>
+                <th scope="col" class="sort" data-sort="status">Actions</th>
+                {% comment %} <th scope="col">Users</th>
+                <th scope="col" class="sort" data-sort="completion">Completion</th>
+                <th scope="col"></th> {% endcomment %}
+              </tr>
+            </thead>
+            <tbody class="list">
+              {% if projectteam %}
+              {% for team in projectteam %}
+              <tr>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    {% comment %} <a href="#" class="avatar rounded-circle mr-3">
+                      <img alt="Image placeholder" src="/static/assets/img/theme/bootstrap.jpg">
+                    </a> {% endcomment %}
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">{{ team.user.username }}</span>
+                    </div>
+                  </div>
+                </th>
+                <td class="budget">
+                  {{ team.project.title }}
+                </td>
+                <td class="budget">
+                  {{ team.project.technology }}
+                </td>
+                <td>
+                  {% if team.user.is_active == True %}
+                    <span class="badge badge-dot mr-4">
+                    <i class="bg-success"></i>
+                    <span class="status">active</span>
+                    </span>
+                  {% else %}
+                    <span class="badge badge-dot mr-4">
+                    <i class="bg-danger"></i>
+                    <span class="status">inactive</span>
+                    </span>
+                  {% endif %}
+                </td>
+                <td class="budget">
+                  <a href="{% url 'projectteamdetail' team.id %}?next={{ request.path|urlencode }}" class="btn btn-info"><i class="fas fa-info-circle mr-2"></i>Detail</a>
+                  {% if request.user.is_manager == True %}
+                  <a href="{% url 'projectteamupdate' team.id %}?next={{ request.path|urlencode }}" class="btn btn-primary"><i class="fas fa-edit mr-2"></i>Edit</a>
+                  <a href="{% url 'projectteamdelete' team.id %}?next={{ request.path|urlencode }}" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Delete</a>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+              {% else %}
+              <tr>
+                <td colspan="5" class="text-center"><h3 class="text-danger">NO DATA FOUND!!</h3></td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+
+{% comment %} end of userlist {% endcomment %}
+
+  {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+  <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+  <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+  <script>
+    function searchFromProject(){
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+  
+  </script>
+
+  <script>
+    function searchFromProject(){
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("myInput1");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable1");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+  
+  </script>
+
+  <script>
+    function searchFromProject(){
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("myInput2");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable2");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+  
+  </script>
+
+
+  <script>
+    var config = {
+      type: 'pie',
+      data: {
+        labels: {{ labels|safe }},
+        datasets: [{
+          data: {{ data|safe }},
+          backgroundColor: 
+          ['rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 162, 235)',
+          'rgb(255, 205, 86)',
+          'rgb(154, 162, 235)'],
+          label: 'Estimated Hours of Project (h)',
+        }],
+        hoverOffset: 4,
+      },
+      options: {
+        plugins: {
+          legend: {
+            labels: {
+              color: "white"
+            }
+          }
+        },
+        responsive: true,
+        title: {
+          text: "Estimated Time of Project",
+          display: true
+        }
+      }
+    };
+
+    window.onload = function() {
+      var ctx = document.getElementById('chart-project-dark').getContext('2d');
+      window.myPie = new Chart(ctx, config);
+    };
+
+  </script>
+
+  <script>
+    let ctx = document.getElementById("chart-bars").getContext("2d");
+
+    let chart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: {{ labels_task|safe }},
+        datasets: [
+            {
+              label: "Total Minutes (min)",
+              backgroundColor: 
+              ['rgb(255, 99, 132)',
+              'rgb(54, 162, 235)',
+              'rgb(255, 162, 235)',
+              'rgb(255, 205, 86)',
+              'rgb(154, 162, 235)'],
+              //borderColor: "#417690",
+              data: {{ data_task|safe }}
+            }
+        ]
+      },
+      options: {
+        responsive: true
+      }
+    });
+
+  </script>
+
+
+  
+  {% comment %} <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script> {% endcomment %}
+  
+
+{% endblock javascripts %}

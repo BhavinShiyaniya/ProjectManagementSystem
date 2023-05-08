@@ -1,0 +1,52 @@
+
+  <script src="/static/assets/vendor/jquery/dist/jquery.min.js"></script>
+  <script src="/static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/assets/vendor/js-cookie/js.cookie.js"></script>
+  <script src="/static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+  <script src="/static/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+
+  {% comment %} Alertify JS {% endcomment %}
+  <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+  
+  <script>
+    alertify.set('notifier','position', 'top-right');
+    
+    {% for msg in messages %}
+      {% if msg.tags == 'warning' %}
+        alertify.warning('{{ msg }}');
+      {% elif msg.tags == 'success' %}
+        alertify.success('{{ msg }}');
+        {% elif msg.tags == 'error' %}
+        alertify.error('{{ msg }}');
+        {% elif msg.tags == 'message_info' %}
+        alertify.message('{{ msg }}');
+        {% elif msg.tags == 'message_debug' %}
+        alertify.warning('{{ msg }}');
+        {% endif %}
+        //alertify.success('{{ msg }}');
+    {% endfor %}
+  </script>
+
+  {% comment %} Autocomplete Js {% endcomment %}
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+  <script>
+
+    var availableTags = [];
+
+    $.ajax({
+      method: "GET",
+      url: "/project/project-list",
+      success: function(response){
+        startAutocomplete(response);
+      }
+    });
+
+    function startAutocomplete(availableTags){
+      $( "#searchprojects" ).autocomplete({
+        source: availableTags
+      });
+    }
+
+  </script>
+

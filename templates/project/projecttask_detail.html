@@ -1,0 +1,83 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Project Detail {% endblock title %}
+
+{% block content %}
+
+<!-- Header -->
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        {% if request.GET.next %}
+        <a href="{{ request.GET.next }}" class="btn btn-warning mt-2"><i class="ni ni-bold-left mr-2"></i> Back</a>
+        {% else %}
+        <a href="{% url 'projecttasklist' %}" class="btn btn-warning mt-2"><i class="ni ni-bold-left mr-2"></i> Back</a>
+        {% endif %}
+        {% comment %} <a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-warning mt-2"><i class="ni ni-bold-left mr-2"></i> Back</a> {% endcomment %}
+        <!-- Card stats -->
+        <div class="row pt-2">
+            <div class="col-xl-5 col-md-6 mx-auto">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Task information</h5>
+                      {% comment %} <span class="h2 font-weight-bold mb-0">2,356</span> {% endcomment %}
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                        <i class="ni ni-collection"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Title : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projecttaskdetail.title }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Project : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projecttaskdetail.project.title }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Module : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projecttaskdetail.module }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Description : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projecttaskdetail.description }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                      <span class="text-nowrap font-weight-bold mr-1">Status : </span>
+                      <span class="text-nowrap text-success font-weight-bold"> {{ projecttaskdetail.status }} </span>
+                </p>
+                <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Total Minutes : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projecttaskdetail.totalMinutes }} </span>
+                </p>
+                </div>
+                {% if request.user.is_manager == True %}
+                <div class="ms-auto text-end d-flex flex-row-reverse">
+                  <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="{% url 'projecttaskdelete' projecttaskdetail.id %}?next={{ request.path|urlencode }}"><i class="fas fa-trash mr-2"></i>Delete</a>
+                  <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'projecttaskupdate' projecttaskdetail.id %}?next={{ request.path|urlencode }}"><i class="fas fa-edit mr-2"></i>Edit</a>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+<script src="{% static '/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+{% endblock javascripts %}

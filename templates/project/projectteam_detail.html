@@ -1,0 +1,140 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Project Detail {% endblock title %}
+
+{% block content %}
+
+<!-- Header -->
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        {% if request.GET.next %}
+        <a href="{{ request.GET.next }}" class="btn btn-warning mt-2"><i class="ni ni-bold-left mr-2"></i> Back</a>
+        {% else %}
+        <a href="{% url 'projectteamlist' %}" class="btn btn-warning mt-2"><i class="ni ni-bold-left mr-2"></i> Back</a>
+        {% endif %}
+        {% comment %} <a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-warning mt-2"><i class="ni ni-bold-left mr-2"></i> Back</a> {% endcomment %}
+        <!-- Card stats -->
+        <div class="row pt-2 justify-content-center">
+            
+            <div class="col-xl-4 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Project Team</h5>
+                      {% comment %} <span class="h2 font-weight-bold mb-0"><a class="btn btn-link text-primary px-3 mb-0" href="{% url 'projectteamcreate' %}?next={{ request.path|urlencode }}"><i class="fas fa-plus mr-2"></i>Add</a></span> {% endcomment %}
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                        <i class="ni ni-single-02"></i>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">User : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projectteamdetail.user }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Email : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projectteamdetail.user.email }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">User Type : </span>
+                    {% if projectteamdetail.user.is_teamleader == True %}
+                      <span class="text-nowrap text-success font-weight-bold">Team Leader</span>
+                    {% elif projectteamdetail.user.is_developer == True %}
+                      <span class="text-nowrap text-success font-weight-bold">Developer</span>
+                    {% elif projectteamdetail.user.is_tester == True %}
+                      <span class="text-nowrap text-success font-weight-bold">Tester</span>
+                    {% endif %}
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Status : </span>
+                    {% if projectteamdetail.user.is_active == True %}
+                      <span class="text-nowrap text-success font-weight-bold">active</span>
+                    {% else %}
+                      <span class="text-nowrap text-danger font-weight-bold">inactive</span>
+                    {% endif %}
+                  </p>
+                  
+                </div>
+
+                {% if request.user.is_manager == True %}
+                <div class="ms-auto text-end d-flex flex-row-reverse">
+                  <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="{% url 'projectteamdelete' projectteamdetail.id %}?next={{ request.path|urlencode }}"><i class="fas fa-trash mr-2"></i>Delete</a>
+                  <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'projectteamupdate' projectteamdetail.id %}?next={{ request.path|urlencode }}"><i class="fas fa-edit mr-2"></i>Edit</a>
+                </div>
+                {% endif %}
+
+              </div>
+            </div>
+
+            <div class="col-xl-6 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Project information</h5>
+                      {% comment %} <span class="h2 font-weight-bold mb-0">2,356</span> {% endcomment %}
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                        <i class="ni ni-collection"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Title : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projectteamdetail.project.title }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Description : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projectteamdetail.project.description }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Technology : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projectteamdetail.project.technology }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Estimated Hours : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projectteamdetail.project.estimatedHours }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Start Date : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projectteamdetail.project.startDate }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">Completion Date : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ projectteamdetail.project.completionDate }} </span>
+                  </p>
+                </div>
+                {% if request.user.is_manager == True %}
+                <div class="ms-auto text-end d-flex flex-row-reverse">
+                  <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="{% url 'projectdelete' projectteamdetail.project.id %}?next={{ request.path|urlencode }}"><i class="fas fa-trash mr-2"></i>Delete</a>
+                  <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'projectupdate' projectteamdetail.project.id %}?next={{ request.path|urlencode }}"><i class="fas fa-edit mr-2"></i>Edit</a> 
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+<script src="{% static '/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+{% endblock javascripts %}

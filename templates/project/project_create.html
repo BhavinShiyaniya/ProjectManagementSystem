@@ -1,0 +1,123 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Create Project {% endblock title %}
+
+{% block content %}
+
+<!-- Page content -->
+<div class="container-fluid mt--12 pt-5">
+  <div class="row">
+    <div class="col-xl-12 order-xl-1">
+      <div class="card">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col-8">
+              {% if request.path == '/project/projectcreate/' %}
+              <h3 class="mb-0">Create Project </h3>
+              {% else %}
+              <h3 class="mb-0">Update Project </h3>
+              {% endif %}
+            </div>
+            <div class="col-4 text-right">
+              {% comment %} <a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-sm btn-primary"> Back</a> {% endcomment %}
+              {% if request.GET.next %}
+              <a href="{{ request.GET.next }}" class="btn btn-sm btn-primary"> Back</a>
+              {% else %}
+              <a href="{% url 'projectlist' %}" class="btn btn-sm btn-primary"> Back</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            {% csrf_token %}
+            <h6 class="heading-small text-muted mb-4">Project information</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-username">Title</label>
+                    {{ form.title }}
+                    {% comment %} <input type="text" id="input-username" class="form-control" placeholder="Username" value="{{ request.user.username }}"> {% endcomment %}
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label class="form-control-label">Description</label>
+                    {{ form.description }}
+                    {% comment %} <textarea rows="4" class="form-control" placeholder="A few words about you ...">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea> {% endcomment %}
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-username">Technology</label>
+                    {{ form.technology }}
+                    {% comment %} <input type="text" id="input-username" class="form-control" placeholder="Username" value="{{ request.user.username }}"> {% endcomment %}
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-city">Estimated Hours</label>
+                    {{ form.estimatedHours }}
+                    {% comment %} <input type="text" id="input-city" class="form-control" placeholder="City" value="New York"> {% endcomment %}
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-city">Start Date</label>
+                    {{ form.startDate }}
+                    {% comment %} <input type="text" id="input-country" class="form-control" placeholder="Country" value="United States"> {% endcomment %}
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-city">Completion Date</label>
+                    {{ form.completionDate }}
+                    {% comment %} <input type="number" id="input-postal-code" class="form-control" placeholder="Postal code"> {% endcomment %}
+                  </div>
+                </div>
+              </div>
+              <input type="hidden" name="next" value="{{ request.GET.next }}">
+              {% if request.path == '/project/projectcreate/' %}
+              <div class="col-lg-12">
+                <div class="form-group">
+                    <input type="submit" id="input-postal-code" class="btn btn-primary float-right btn-lg btn-block" value="Create">
+                  </div>
+                </div>
+                    {% else %}
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          {% if request.GET.next %}
+                          <a href="{{ request.GET.next }}" class="btn btn-light float-right btn-lg btn-block">Close</a>
+                          {% else %}
+                          <a href="{% url 'projectlist' %}" class="btn btn-light float-right btn-lg btn-block">Close</a>
+                          {% endif %}
+                          {% comment %} <a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-light float-right btn-lg btn-block">Close</a> {% endcomment %}
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <input type="submit" id="input-postal-code" class="btn btn-primary float-right btn-lg btn-block" value="Update">
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+<script src="{% static '/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+{% endblock javascripts %}

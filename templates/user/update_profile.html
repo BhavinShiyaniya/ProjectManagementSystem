@@ -1,0 +1,196 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Profile {% endblock title %}
+
+{% block content %}
+
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Update Profile</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="{% url 'dashboard' %}"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="#">User</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Update Profile</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Page content -->
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col-xl-4 order-xl-2">
+      <div class="card card-profile">
+        <img src="/static/assets/img/theme/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+            <div class="card-profile-image">
+              <a href="#">
+                <img src="/static/assets/img/theme/team-4.jpg" class="rounded-circle">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+          <div class="d-flex justify-content-between">
+            <a href="#" class="btn btn-sm btn-info  mr-4 ">Connect</a>
+            <a href="#" class="btn btn-sm btn-default float-right">Message</a>
+          </div>
+        </div>
+        <div class="card-body pt-0">
+          <div class="row">
+            <div class="col">
+              <div class="card-profile-stats d-flex justify-content-center">
+                <div>
+                  <span class="heading">22</span>
+                  <span class="description">Friends</span>
+                </div>
+                <div>
+                  <span class="heading">10</span>
+                  <span class="description">Photos</span>
+                </div>
+                <div>
+                  <span class="heading">89</span>
+                  <span class="description">Comments</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <h5 class="h3">
+              {{ request.user.username }}
+            </h5>
+            <div class="h5 font-weight-300">
+              {{ request.user.email }}
+            </div>
+            <div class="h5 mt-4">
+                {% if request.user.is_manager == True %}
+                    <i class="ni business_briefcase-24 mr-2"></i>Designation - Manager
+                {% elif request.user.is_teamleader == True %}
+                    <i class="ni business_briefcase-24 mr-2"></i>Designation - Team Leader
+                {% elif request.user.is_developer == True %}
+                    <i class="ni business_briefcase-24 mr-2"></i>Designation - Developer
+                {% elif request.user.is_tester == True %}
+                    <i class="ni business_briefcase-24 mr-2"></i>Designation - Tester
+                {% endif %}
+            </div>
+            <div>
+              <i class="ni education_hat mr-2"></i>University of Computer Science
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-8 order-xl-1">
+      <div class="card">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Edit profile </h3>
+            </div>
+            <div class="col-4 text-right">
+              <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+
+                {% csrf_token %}
+                 <div class="row"> 
+
+                  <div class="form-group col-md-6">
+                    <div class="input-group input-group-alternative mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                      </div>
+                      {{ form.first_name }}
+                    </div>
+                  </div>
+                  <span class="text-error">{{ form.first_name.errors }}</span>
+
+                  <div class="form-group col-md-6">
+                    <div class="input-group input-group-alternative mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                      </div>
+                      {{ form.last_name }}
+                    </div>
+                  </div>
+                  <span class="text-error">{{ form.last_name.errors }}</span>
+                </div>
+          
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    {{ form.username }}
+                  </div>
+                </div>
+                <span class="text-error">{{ form.username.errors }}</span>
+
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                    </div>
+                    {{ form.email }}
+                  </div>
+                </div>
+                <span class="text-error">{{ form.email.errors }}</span>
+
+                <div class="form-group">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                    </div>
+                    {{ form.password1 }}
+                  </div>
+                </div>
+                <span class="text-error">{{ form.password1.errors }}</span>
+
+                <div class="form-group">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                    </div>
+                    {{ form.password2 }}
+                  </div>
+                </div>
+                <span class="text-error">{{ form.password2.errors }}</span> 
+
+                <div class="row my-4">
+                  <div class="col-12">
+                    <div class="custom-control custom-control-alternative custom-checkbox">
+                      <input class="custom-control-input" id="customCheckRegister" type="checkbox">
+                      <label class="custom-control-label" for="customCheckRegister">
+                        <span class="text-muted">I agree with the <a href="#!">Privacy Policy</a></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <input type="submit" value="Update account" class="btn btn-primary float-right btn-lg btn-block mt-4">
+                </div>
+              </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}

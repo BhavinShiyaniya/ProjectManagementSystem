@@ -1,0 +1,161 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Project Task List {% endblock title %}
+
+{% block content %}
+
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Projects</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                    <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="#">Project</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Project Task List</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
+            <a href="#" class="btn btn-sm btn-neutral">New</a>
+            <a href="#" class="btn btn-sm btn-neutral">Filters</a>
+        </div>
+    </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+      <div class="row">
+          <div class="col">
+              <div class="card">
+                  <!-- Card header -->
+                    <div class="card-header border-0 row">
+                      <h3 class="mb-0 col-2">All Tasks</h3>
+                      <div class="input-group col">
+                        <input type="text" id="myInput" onkeyup="searchFromProject()" class="form-control mr-4" placeholder="Search for tasks..." title="Type in a search" />
+                      </div>
+                      {% if request.user.is_manager == True %}
+                      <a href="{% url 'projecttaskcreate' %}?next={{ request.path|urlencode }}" class="btn btn-primary">Create New</a>
+                      {% endif %}
+                    </div>
+          <!-- Light table -->
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush text-center" id="myTable">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col" class="sort" data-sort="name">Title
+                    <a href="?sort_by=title&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                    <a href="?sort_by=title&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                  </th>
+                  <th scope="col" class="sort" data-sort="name">Project
+                    <a href="?sort_by=project&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                    <a href="?sort_by=project&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                  </th>
+                  <th scope="col" class="sort" data-sort="budget">Module
+                    <a href="?sort_by=module&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                    <a href="?sort_by=module&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                  </th>
+                  <th scope="col" class="sort" data-sort="budget">Priority
+                    <a href="?sort_by=priority&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                    <a href="?sort_by=priority&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                  </th>
+                  <th scope="col" class="sort" data-sort="status">Status
+                    <a href="?sort_by=status&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
+                    <a href="?sort_by=status&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                  </th>
+                  <th scope="col" class="sort" data-sort="status">Actions</th>
+                  {% comment %} <th scope="col">Users</th>
+                  <th scope="col" class="sort" data-sort="completion">Completion</th>
+                  <th scope="col"></th> {% endcomment %}
+                </tr>
+              </thead>
+              <tbody class="list">
+                {% if projecttasklist %}
+                {% for project in projecttasklist %}
+                <tr>
+                    <th scope="row">
+                        <div class="media align-items-center">
+                            {% comment %} <a href="#" class="avatar rounded-circle mr-3">
+                                <img alt="Image placeholder" src="/static/assets/img/theme/bootstrap.jpg">
+                            </a> {% endcomment %}
+                            <div class="media-body">
+                                <span class="name mb-0 text-sm">{{ project.title }}</span>
+                            </div>
+                        </div>
+                    </th>
+                    <td class="budget">
+                        {{ project.project.title }}
+                    </td>
+                    <td class="budget">
+                        {{ project.module }}
+                    </td>
+                    <td class="budget">
+                        {{ project.priority }}
+                    </td>
+                    
+                    <td class="budget">
+                        <span class="badge badge-dot mr-4">
+                            <i class="{{ project.status|lower|cut:" " }}"></i>
+                            <span class="status">{{ project.status }}</span>
+                        </span>
+                    </td>
+                    
+                    <td class="budget">
+                        <a href="{% url 'projecttaskdetail' project.id %}?next={{ request.path|urlencode }}" class="btn btn-info"><i class="fas fa-info-circle mr-2"></i>Detail</a>
+                        {% if request.user.is_manager == True %}
+                        <a href="{% url 'projecttaskupdate' project.id %}?next={{ request.path|urlencode }}" class="btn btn-primary"><i class="fas fa-edit mr-2"></i>Edit</a>
+                        <a href="{% url 'projecttaskdelete' project.id %}?next={{ request.path|urlencode }}" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Delete</a>
+                        {% endif %}
+                    </td>
+                
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="5" class="text-center"><h3 class="text-danger">NO DATA FOUND!!</h3></td>
+            </tr>
+            {% endif %}
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include "includes/footer.html" %}
+
+  </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+<script src="{% static '/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+
+<script>
+  function searchFromProject(){
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+</script>
+{% endblock javascripts %}
