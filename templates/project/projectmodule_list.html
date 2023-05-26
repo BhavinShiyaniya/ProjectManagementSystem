@@ -35,10 +35,10 @@
               <div class="card">
                   <!-- Card header -->
                     <div class="card-header border-0 row">
-                      <h3 class="mb-0 col-2">All Modules</h3>
-                      <div class="input-group col">
+                      <h3 class="mb-0 col">All Modules</h3>
+                      {% comment %} <div class="input-group col">
                         <input type="text" id="myInput" onkeyup="searchFromProject()" class="form-control mr-4" placeholder="Search for modules..." title="Type in a search" />
-                      </div>
+                      </div> {% endcomment %}
                       {% if request.user.is_manager == True %}
                       <a href="{% url 'projectmodulecreate' %}?next={{ request.path|urlencode }}" class="btn btn-primary">Create New</a>
                       {% endif %}
@@ -48,23 +48,23 @@
             <table class="table align-items-center table-flush text-center" id="myTable">
               <thead class="thead-light">
                 <tr>
-                  <th scope="col" class="sort" data-sort="name">Project
-                    <a href="?sort_by=project&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                    <a href="?sort_by=project&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                  <th scope="col" class="sort text-center" data-sort="name">Project
+                    {% comment %} <a href="?sort_by=project&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                    {% comment %} <a href="?sort_by=project&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                   </th>
-                  <th scope="col" class="sort" data-sort="budget">Module
-                    <a href="?sort_by=moduleName&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                    <a href="?sort_by=moduleName&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                  <th scope="col" class="sort text-center" data-sort="budget">Module
+                    {% comment %} <a href="?sort_by=moduleName&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                    {% comment %} <a href="?sort_by=moduleName&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                   </th>
-                  <th scope="col" class="sort" data-sort="status">Status
-                    <a href="?sort_by=status&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                    <a href="?sort_by=status&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                  <th scope="col" class="sort text-center" data-sort="status">Status
+                    {% comment %} <a href="?sort_by=status&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                    {% comment %} <a href="?sort_by=status&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                   </th>
-                  <th scope="col" class="sort" data-sort="budget">Start Date
-                    <a href="?sort_by=startDate&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                    <a href="?sort_by=startDate&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                  <th scope="col" class="sort text-center" data-sort="budget">Start Date
+                    {% comment %} <a href="?sort_by=startDate&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                    {% comment %} <a href="?sort_by=startDate&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                   </th>
-                  <th scope="col" class="sort" data-sort="status">Actions</th>
+                  <th scope="col" class="sort text-center" data-sort="status">Actions</th>
                   {% comment %} <th scope="col">Users</th>
                   <th scope="col" class="sort" data-sort="completion">Completion</th>
                   <th scope="col"></th> {% endcomment %}
@@ -130,7 +130,24 @@
 {% block javascripts %}
 <script src="{% static '/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
 
-<script>
+{% comment %} datatables {% endcomment %}
+<script src="/static/assets/js/plugins/datatables.js" type="text/javascript"></script>
+
+  <script>
+
+    const dataTableSearch = new simpleDatatables.DataTable("#myTable", {
+      searchable: true,
+      fixedHeight: true,
+      paging: false,
+      labels: {
+        placeholder: "Search Modules...",
+        searchTitle: "Search within Modules"
+      }
+    });
+  
+  </script>
+
+{% comment %} <script>
   function searchFromProject(){
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("myInput");
@@ -150,5 +167,6 @@
     }
   }
 
-</script>
+</script> {% endcomment %}
+
 {% endblock javascripts %}

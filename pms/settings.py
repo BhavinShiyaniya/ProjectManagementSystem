@@ -25,9 +25,9 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 SECRET_KEY = 'django-insecure-okvnkf_pkaxrr_*&!!jg8p+-iyn#sy5_n#^ih=dnz&5rodnh7i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'project',
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -158,3 +159,4 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'error',
 }
+

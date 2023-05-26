@@ -20,6 +20,7 @@ urlpatterns = [
     path('projectmoduleupdate/<int:pk>', ProjectModuleUpdateView.as_view(), name='projectmoduleupdate'),
     path('projectmoduledetail/<int:pk>', ProjectModuleDetailView.as_view(), name='projectmoduledetail'),
     path('projectmoduledelete/<int:pk>', ProjectModuleDeleteView.as_view(), name='projectmoduledelete'),
+    # path('taskprioritycreate/', TaskPriorityCreateView.as_view(), name='taskprioritycreate'),
     path('projecttaskcreate/', ProjectTaskCreateView.as_view(), name='projecttaskcreate'),
     path('projecttasklist/', ProjectTaskListView.as_view(), name='projecttasklist'),
     path('projecttaskupdate/<int:pk>', ProjectTaskUpdateView.as_view(), name='projecttaskupdate'),
@@ -34,4 +35,8 @@ urlpatterns = [
 
     path('project-list', projectlistAjax),
     path('searchproject', searchproject, name='searchproject'),
+
+    path('projectreport/', ProjectReportView.as_view(), name='projectreport'),
+    path('modulereport/', ModuleReportView.as_view(), name='modulereport'),
+    path('taskreport/', TaskReportView.as_view(), name='taskreport'),
 ]

@@ -73,6 +73,15 @@ class ProjectModuleCreationForm(forms.ModelForm):
         self.fields['project'].empty_label = "Select Project"
         self.fields['status'].empty_label = "Select Status"
 
+# class TaskPriorityCreationForm(forms.ModelForm):
+#     class Meta:
+#         model = Priority
+#         fields = '__all__'
+
+#         widgets = {
+#             'priorityName': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Priority Name'})
+#         }
+
 class ProjectTaskCreationForm(forms.ModelForm):
     class Meta:
         model = Task
@@ -83,6 +92,7 @@ class ProjectTaskCreationForm(forms.ModelForm):
             'project': forms.Select(attrs={'class': 'form-control'}),
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task Title'}),
             'priority': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Priority'}),
+            # 'priority': forms.Select(attrs={'class': 'form-control'}),
             'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Description'}),
             'status': forms.Select(attrs={'class': 'form-control'}),
             'totalMinutes': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '12'})
@@ -92,6 +102,7 @@ class ProjectTaskCreationForm(forms.ModelForm):
         super(ProjectTaskCreationForm, self).__init__(*args, **kwargs)
         self.fields['module'].empty_label = "Select Module"
         self.fields['project'].empty_label = "Select Project"
+        # self.fields['priority'].empty_label = "Select Priority"
         self.fields['status'].empty_label = "Select Status"
 
 class ProjectTaskUserCreationForm(forms.ModelForm):

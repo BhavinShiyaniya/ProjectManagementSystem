@@ -12,32 +12,23 @@
       <div class="row justify-content-center">
         <div class="col-lg-5 col-md-7">
           <div class="card bg-secondary shadow border-0">
-            <div class="card-header bg-transparent pb-5">
+            <div class="card-header bg-transparent pb-3">
               <div class="text-muted text-center mt-2 mb-3">
-                Log IN
+                <h1>Login</h1>
               </div>
             </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <div class="text-center text-muted mb-4">
-
-                {% if msg %}
-                  <p>{{ msg }}</p>
-                {% else %}
-                  <p>
-                    Add your credentials
-                  </p>
-                {% endif %}  
+            <div class="card-body px-lg-5 py-lg-3">
+              <div class="text-center text-muted mb-4">  
 
               </div>
 
               <form method="POST">
 
                 {% csrf_token %}
-                
-                {% if form.errors %}
-                {% comment %} {{ form.errors }} {% endcomment %}
-                <p class="text-center text-danger font-weight-bold">Incorrect username or password !!</p>
-                {% endif %}
+              
+                {% for error in form.non_field_errors %}
+                  {{error}}
+                {% endfor %}
 
                 <div class="form-group mb-3">
                   <div class="input-group input-group-alternative">
@@ -58,12 +49,17 @@
                   </div>
                 </div>
                 <span class="text-error">{{ form.password.errors }}</span>
-
-                <div class="custom-control custom-control-alternative custom-checkbox">
-                  <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
-                  <label class="custom-control-label" for=" customCheckLogin">
-                    <span class="text-muted">Remember me</span>
-                  </label>
+                
+                <div class="row">
+                  <div class="col custom-control custom-control-alternative custom-checkbox ml-3">
+                    <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
+                    <label class="custom-control-label" for=" customCheckLogin">
+                      <span class="text-muted">Remember me</span>
+                    </label>
+                  </div>
+                  <div class="col text-right">
+                    <a href="{% url 'password_reset' %}"><span class="text-blue">forgot password?</span></a>
+                  </div>
                 </div>
                 <div class="text-center">
                   <input type="submit" value="Log in" class="btn btn-primary my-4">
@@ -71,14 +67,14 @@
               </form>
             </div>
           </div>
-          <div class="row mt-3">
+          {% comment %} <div class="row mt-3">
             <div class="col-6">
               <a href="{% url 'developerregister' %}" class="text-light"><small>Register</small></a>
             </div>
             <div class="col-6 text-right">
               <a href="https://appseed.us/support" class="text-light"><small>Get Support</small></a>
             </div>
-          </div>
+          </div> {% endcomment %}
         </div>
       </div>
     </div>

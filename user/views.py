@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import CreateView, UpdateView
 from .models import User
-from .forms import ManagerRegisterForm, DeveloperRegisterForm, TeamLeaderRegisterForm, TesterRegisterForm, ProfileUpdateForm
+from .forms import ManagerRegisterForm, DeveloperRegisterForm, TeamLeaderRegisterForm, TesterRegisterForm, ProfileUpdateForm, PasswordChangingForm
 from django.contrib.auth import login
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.conf import settings
@@ -108,6 +109,8 @@ class TesterRegisterView(CreateView):
 class UserLoginView(LoginView):
     template_name = 'user/login.html'
 
+    redirect_authenticated_user=True
+
     def get_redirect_url(self):
         if self.request.user.is_authenticated:
             if self.request.user.is_manager:
@@ -144,3 +147,11 @@ def sendMail(mailid,subject,message):
         print("mail not sent")
     print(res)
     return HttpResponse("mail sent")
+
+class PasswordsChangeView(PasswordChangeView):
+    form_class = PasswordChangingForm
+    # form_class = PasswordChangeForm  # Built in Form
+    success_url = '/user/password_success'
+
+def PasswordsChangeDoneView(request):
+    return render(request, 'user/password_success.html', {})

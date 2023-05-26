@@ -50,53 +50,98 @@
               <span class="nav-link-text">Task Users</span>
             </a>
           </li>
-          {% endif %}
           <li class="nav-item">
             <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="{% url 'updateprofile' request.user.id %}">
               <i class="ni ni-single-02 text-yellow"></i>
               <span class="nav-link-text">Profile</span>
             </a>
-          </li>
-          {% comment %} <li class="nav-item">
-            <a class="nav-link" href="/login.html">
-              <i class="ni ni-key-25 text-info"></i>
-              <span class="nav-link-text">Login (template)</span>
-            </a>
-          </li> {% endcomment %}
-          {% comment %} <li class="nav-item">
-            <a class="nav-link" href="/register.html">
-              <i class="ni ni-circle-08 text-pink"></i>
-              <span class="nav-link-text">Register (template)</span>
-            </a>
-          </li> {% endcomment %}
-
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">
-              <i class="ni ni-user-run text-red"></i>
-              <span class="nav-link-text">Logout</span>
-            </a>
-          </li>            
+            <li class="nav-item">
+              <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="{% url 'password_change' %}">
+                <i class="ni ni-lock-circle-open text-info"></i>
+                <span class="nav-link-text">Change Password</span>
+              </a>
+            </li>
+            {% comment %} <li class="nav-item">
+              <a class="nav-link" href="/login.html">
+                <i class="ni ni-key-25 text-info"></i>
+                <span class="nav-link-text">Login (template)</span>
+              </a>
+            </li> {% endcomment %}
+            {% comment %} <li class="nav-item">
+              <a class="nav-link" href="/register.html">
+                <i class="ni ni-circle-08 text-pink"></i>
+                <span class="nav-link-text">Register (template)</span>
+              </a>
+            </li> {% endcomment %}
+            
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">
+                <i class="ni ni-user-run text-red"></i>
+                <span class="nav-link-text">Logout</span>
+              </a>
+            </li>            
+            {% endif %}
         </ul>
         <!-- Divider -->
         <hr class="my-3">
         <!-- Heading -->
+        {% if request.user.is_manager %}
         <h6 class="navbar-heading p-0 text-muted">
-          <span class="docs-normal">Resources</span>
+          <span class="docs-normal">Reports</span>
         </h6>
         <!-- Navigation -->
         <ul class="navbar-nav mb-md-3">
-
           <li class="nav-item">
-            <a class="nav-link" 
-               target="_blank" 
-               href="https://appseed.us/admin-dashboards/django-dashboard-argon">
-              <i class="ni ni-archive-2"></i>
-              <span class="nav-link-text">Product Page</span>
+            <a class="nav-link {% if 'icons' in segment %} active {% endif %}" href="{% url 'projectreport' %}">
+              <i class="fa fa-file-code text-orange"></i>
+              <span class="nav-link-text">Project Report</span>
+            </a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link {% if 'icons' in segment %} active {% endif %}" href="{% url 'modulereport' %}">
+              <i class="ni ni-collection text-warning"></i>
+              <span class="nav-link-text">Module Report</span>
             </a>
           </li>
 
+          <li class="nav-item">
+            <a class="nav-link {% if 'icons' in segment %} active {% endif %}" href="{% url 'taskreport' %}">
+              <i class="ni ni-bullet-list-67 text-default"></i>
+              <span class="nav-link-text">Task Report</span>
+            </a>
+          </li>
 
+          {% else %}
+
+          <h6 class="navbar-heading p-0 text-muted">
+            <span class="docs-normal">Profile</span>
+          </h6>
+          <!-- Navigation -->
+          <ul class="navbar-nav mb-md-3">
+            <li class="nav-item">
+              <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="{% url 'updateprofile' request.user.id %}">
+                <i class="ni ni-single-02 text-yellow"></i>
+                <span class="nav-link-text">Profile</span>
+              </a>
+            <li class="nav-item">
+              <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="{% url 'password_change' %}">
+                <i class="ni ni-lock-circle-open text-info"></i>
+                <span class="nav-link-text">Change Password</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">
+                <i class="ni ni-user-run text-red"></i>
+                <span class="nav-link-text">Logout</span>
+              </a>
+            </li> 
+
+          {% endif %}
         </ul>
+          
+
+
       </div>
     </div>
   </div>

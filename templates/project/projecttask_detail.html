@@ -46,16 +46,20 @@
                   </p>
                   <p class="mt-3 mb-0 text-sm">
                     <span class="text-nowrap font-weight-bold mr-1">Description : </span>
-                    <span class="text-nowrap text-success font-weight-bold"> {{ projecttaskdetail.description }} </span>
+                    <span class="text-wrap text-success font-weight-bold"> {{ projecttaskdetail.description }} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                      <span class="text-nowrap font-weight-bold mr-1">Priority : </span>
+                      <span class="text-nowrap text-success font-weight-bold"> {{ projecttaskdetail.priority }} </span>
                   </p>
                   <p class="mt-3 mb-0 text-sm">
                       <span class="text-nowrap font-weight-bold mr-1">Status : </span>
                       <span class="text-nowrap text-success font-weight-bold"> {{ projecttaskdetail.status }} </span>
-                </p>
-                <p class="mt-3 mb-0 text-sm">
-                    <span class="text-nowrap font-weight-bold mr-1">Total Minutes : </span>
-                    <span class="text-nowrap text-success font-weight-bold"> {{ projecttaskdetail.totalMinutes }} </span>
-                </p>
+                  </p>
+                  <p class="mt-3 mb-0 text-sm">
+                      <span class="text-nowrap font-weight-bold mr-1">Total Minutes : </span>
+                      <span class="text-nowrap text-success font-weight-bold"> {{ projecttaskdetail.totalMinutes }} </span>
+                  </p>
                 </div>
                 {% if request.user.is_manager == True %}
                 <div class="ms-auto text-end d-flex flex-row-reverse">
@@ -63,6 +67,47 @@
                   <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'projecttaskupdate' projecttaskdetail.id %}?next={{ request.path|urlencode }}"><i class="fas fa-edit mr-2"></i>Edit</a>
                 </div>
                 {% endif %}
+              
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Task User information</h5>
+                      {% if request.user.is_manager == True %}
+                      <span class="h2 font-weight-bold mb-0"><a class="btn-sm btn-success text-white px-3 mb-0" href="{% url 'projecttaskusercreate' %}?next={{ request.path|urlencode }}"><i class="fas fa-plus mr-2"></i>Add</a></span>
+                      {% endif %}
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                        <i class="ni ni-single-02"></i>
+                      </div>
+                    </div>
+                  </div>
+                  {% if taskuser %}
+                  {% for u in taskuser %}
+                  {% if u.task_id == projecttaskdetail.id %}
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-nowrap font-weight-bold mr-1">User : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ u.user.username }} </span>
+                    <br>
+                    <span class="text-nowrap font-weight-bold mr-1">Task : </span>
+                    <span class="text-nowrap text-success font-weight-bold"> {{ u.task.title }} </span>
+                    {% if request.user.is_manager == True %}
+                    <div class="ms-auto text-end d-flex flex-row-reverse">
+                      <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="{% url 'projecttaskuserdelete' u.id %}?next={{ request.path|urlencode }}"><i class="fas fa-trash mr-2"></i>Delete</a>
+                      <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'projecttaskuserupdate' u.id %}?next={{ request.path|urlencode }}"><i class="fas fa-edit mr-2"></i>Edit</a>
+                    </div>
+                    {% endif %}
+                  </p>
+                  {% endif %}
+                  {% endfor %}
+                  {% comment %} <p class="mt-3 mb-0 text-sm text-center">
+                    <span class="text-nowrap font-weight-bold text-danger"> No Task User Available! </span>
+                  </p> {% endcomment %}
+                  {% endif %}
+                </div>
+                
+              
               </div>
             </div>
           </div>

@@ -4,6 +4,10 @@
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
+{% comment %} <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" /> {% endcomment %}
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+
+
 <style>
   i.active{
     background-color: #5e72e4 !important;
@@ -17,6 +21,7 @@
   i.onhold{
     background-color: #fb6340 !important;
   }
+  
 </style>
 {% endblock stylesheets %}
 
@@ -232,36 +237,36 @@
         <!-- Card header -->
         <div class="card-header border-0">
           <div class="row align-items-center">
-            <div class="col-2">
+            <div class="col">
               <h3 class="mb-0">Latest Projects</h3>
             </div>
-            <div class="input-group col">
+            {% comment %} <div class="input-group col">
               <input type="text" id="myInput" onkeyup="searchFromProject()" class="form-control mr-4" placeholder="Search for projects..." title="Type in a search" />
-            </div>
-            <div class="col-2 text-right">
+            </div> {% endcomment %}
+            <div class="col text-right">
               <a href="{% url 'projectlist' %}" class="btn btn-sm btn-primary">See all</a>
             </div>
           </div>
         </div>
         <!-- Light table -->
         <div class="table-responsive">
-          <table class="table align-items-center table-flush text-center" id="myTable">
+          <table class="table align-items-center table-flush text-center" id="myTable1">
             <thead class="thead-light">
               <tr>
-                <th scope="col" class="sort" data-sort="name">Project
-                  <a href="?sort_by=title&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                  <a href="?sort_by=title&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                <th class="text-center" scope="col" data-sort="name">Project
+                  {% comment %} <a href="?sort_by=title&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                  {% comment %} <a href="?sort_by=title&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                 </th>
-                <th scope="col" class="sort" data-sort="budget">Description</th>
-                <th scope="col" class="sort" data-sort="budget">Technology
-                  <a href="?sort_by=technology&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                  <a href="?sort_by=technology&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                <th class="text-center" scope="col" data-sort="budget">Description</th>
+                <th class="text-center" scope="col" data-sort="budget">Technology
+                  {% comment %} <a href="?sort_by=technology&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                  {% comment %} <a href="?sort_by=technology&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                 </th>
-                <th scope="col" class="sort" data-sort="status">Status
+                <th class="text-center" scope="col" data-sort="status">Status
                   {% comment %} <a href="?sort_by=status&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
                   <a href="?sort_by=status&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                 </th>
-                <th scope="col" class="sort" data-sort="status">Actions</th>
+                <th class="text-center" scope="col" data-sort="status">Actions</th>
                 {% comment %} <th scope="col">Users</th>
                 <th scope="col" class="sort" data-sort="completion">Completion</th>
                 <th scope="col"></th> {% endcomment %}
@@ -281,7 +286,7 @@
                     </div>
                   </div>
                 </th>
-                <td class="budget">
+                <td class="budget text-wrap">
                   {{ project.description }}
                 </td>
                 <td class="budget">
@@ -317,7 +322,7 @@
 
 
 
-{% comment %} Moduless list {% endcomment %}
+{% comment %} Modules list {% endcomment %}
 
 <div class="row">
   <div class="col">
@@ -325,39 +330,39 @@
       <!-- Card header -->
       <div class="card-header border-0">
         <div class="row align-items-center">
-          <div class="col-2">
+          <div class="col">
             <h3 class="mb-0">Latest Modules</h3>
           </div>
-          <div class="input-group col">
+          {% comment %} <div class="input-group col">
             <input type="text" id="myInput3" onkeyup="searchFromProject()" class="form-control mr-4" placeholder="Search for moduless..." title="Type in a search" />
-          </div>
-          <div class="col-2 text-right">
+          </div> {% endcomment %}
+          <div class="col text-right">
             <a href="{% url 'projectmodulelist' %}" class="btn btn-sm btn-primary">See all</a>
           </div>
         </div>
       </div>
       <!-- Light table -->
       <div class="table-responsive">
-        <table class="table align-items-center table-flush text-center" id="myTable3">
+        <table class="table align-items-center table-flush text-center" id="myTable2">
           <thead class="thead-light">
             <tr>
-              <th scope="col" class="sort" data-sort="name">Project
-                <a href="?sort_by=project&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                <a href="?sort_by=project&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+              <th class="text-center" scope="col" data-sort="name">Project
+                {% comment %} <a href="?sort_by=project&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                {% comment %} <a href="?sort_by=project&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
               </th>
-              <th scope="col" class="sort" data-sort="name">Module
-                <a href="?sort_by=moduleName&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                <a href="?sort_by=moduleName&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+              <th class="text-center" scope="col" data-sort="name">Module
+                {% comment %} <a href="?sort_by=moduleName&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                {% comment %} <a href="?sort_by=moduleName&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
               </th>
-              <th scope="col" class="sort" data-sort="budget">Status
-                <a href="?sort_by=status&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                <a href="?sort_by=status&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+              <th class="text-center" scope="col" data-sort="budget">Status
+                {% comment %} <a href="?sort_by=status&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                {% comment %} <a href="?sort_by=status&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
               </th>
-              <th scope="col" class="sort" data-sort="budget">Start Date
-                <a href="?sort_by=startDate&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                <a href="?sort_by=startDate&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+              <th class="text-center" scope="col" data-sort="budget">Start Date
+                {% comment %} <a href="?sort_by=startDate&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                {% comment %} <a href="?sort_by=startDate&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
               </th>
-              <th scope="col" class="sort" data-sort="status">Actions</th>
+              <th class="text-center" scope="col" data-sort="status">Actions</th>
               {% comment %} <th scope="col">Users</th>
               <th scope="col" class="sort" data-sort="completion">Completion</th>
               <th scope="col"></th> {% endcomment %}
@@ -421,43 +426,43 @@
         <!-- Card header -->
         <div class="card-header border-0">
           <div class="row align-items-center">
-            <div class="col-2">
+            <div class="col">
               <h3 class="mb-0">Latest Tasks</h3>
             </div>
-            <div class="input-group col">
-              <input type="text" id="myInput1" onkeyup="searchFromProject()" class="form-control mr-4" placeholder="Search for tasks..." title="Type in a search" />
-            </div>
-            <div class="col-2 text-right">
+            {% comment %} <div class="input-group col">
+              <input type="text" id="myInput4" onkeyup="searchFromProject()" class="form-control mr-4" placeholder="Search for tasks..." title="Type in a search" />
+            </div> {% endcomment %}
+            <div class="col text-right">
               <a href="{% url 'projecttasklist' %}" class="btn btn-sm btn-primary">See all</a>
             </div>
           </div>
         </div>
         <!-- Light table -->
         <div class="table-responsive">
-          <table class="table align-items-center table-flush text-center" id="myTable1">
+          <table class="table align-items-center table-flush text-center" id="myTable3">
             <thead class="thead-light">
               <tr>
-                <th scope="col" class="sort" data-sort="name">Title
-                  <a href="?sort_by=title&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                  <a href="?sort_by=title&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                <th class="text-center" scope="col" class="sort" data-sort="name">Title
+                  {% comment %} <a href="?sort_by=title&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                  {% comment %} <a href="?sort_by=title&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                 </th>
-                <th scope="col" class="sort" data-sort="name">Project
-                  <a href="?sort_by=project&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                  <a href="?sort_by=project&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                <th class="text-center" scope="col" class="sort" data-sort="name">Project
+                  {% comment %} <a href="?sort_by=project&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                  {% comment %} <a href="?sort_by=project&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                 </th>
-                <th scope="col" class="sort" data-sort="budget">Module
-                  <a href="?sort_by=module&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                  <a href="?sort_by=module&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                <th class="text-center" scope="col" class="sort" data-sort="budget">Module
+                  {% comment %} <a href="?sort_by=module&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                  {% comment %} <a href="?sort_by=module&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                 </th>
-                <th scope="col" class="sort" data-sort="budget">Priority
-                  <a href="?sort_by=priority&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                  <a href="?sort_by=priority&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                <th class="text-center" scope="col" class="sort" data-sort="budget">Priority
+                  {% comment %} <a href="?sort_by=priority&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                  {% comment %} <a href="?sort_by=priority&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                 </th>
-                <th scope="col" class="sort" data-sort="status">Status
-                  <a href="?sort_by=status&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                  <a href="?sort_by=status&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                <th class="text-center" scope="col" class="sort" data-sort="status">Status
+                  {% comment %} <a href="?sort_by=status&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                  {% comment %} <a href="?sort_by=status&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                 </th>
-                <th scope="col" class="sort" data-sort="status">Actions</th>
+                <th class="text-center" scope="col" class="sort" data-sort="status">Actions</th>
                 {% comment %} <th scope="col">Users</th>
                 <th scope="col" class="sort" data-sort="completion">Completion</th>
                 <th scope="col"></th> {% endcomment %}
@@ -518,13 +523,7 @@
 
 
 
-
-
-
-
-
-
-  {% comment %} team list {% endcomment %}
+{% comment %} team list {% endcomment %}
   {% if request.user.is_manager == True %}
   <div class="row">
     <div class="col">
@@ -532,42 +531,42 @@
         <!-- Card header -->
         <div class="card-header border-0">
           <div class="row align-items-center">
-            <div class="col-2">
+            <div class="col">
               <h3 class="mb-0">Project Teams</h3>
             </div>
-            <div class="input-group col">
+            {% comment %} <div class="input-group col">
               <input type="text" id="myInput2" onkeyup="searchFromProject()" class="form-control mr-4" placeholder="Search for teams..." title="Type in a search" />
-            </div>
-            <div class="col-2 text-right">
+            </div> {% endcomment %}
+            <div class="col text-right">
               <a href="{% url 'projectteamlist' %}" class="btn btn-sm btn-primary">See all</a>
             </div>
           </div>
         </div>
         <!-- Light table -->
         <div class="table-responsive">
-          <table class="table align-items-center table-flush text-center" id="myTable2">
+          <table class="table align-items-center table-flush text-center" id="myTable4">
             <thead class="thead-light">
               <tr>
-                <th scope="col" class="sort" data-sort="budget">User
-                  <a href="?sort_by_user=user&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                  <a href="?sort_by_user=user&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                <th class="text-center" scope="col" class="sort" data-sort="budget">User
+                  {% comment %} <a href="?sort_by_user=user&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                  {% comment %} <a href="?sort_by_user=user&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                 </th>
-                <th scope="col" class="sort" data-sort="name">Project
-                  <a href="?sort_by_user=project&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
-                  <a href="?sort_by_user=project&amp;direction=desc"><i class="fas fa-arrow-down"></i></a>
+                <th class="text-center" scope="col" class="sort" data-sort="name">Project
+                  {% comment %} <a href="?sort_by_user=project&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a> {% endcomment %}
+                  {% comment %} <a href="?sort_by_user=project&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                 </th>
-                <th scope="col" class="sort" data-sort="budget">Technology
+                <th class="text-center" scope="col" class="sort" data-sort="budget">Technology
                   {% comment %} <a href="?sort_by_user=technology&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
                   <a href="?sort_by_user=technology&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                 </th>
-                <th scope="col" class="sort" data-sort="status">Status
+                <th class="text-center" scope="col" class="sort" data-sort="status">Status
                   {% comment %} <a href="?sort_by_user=status&amp;direction=asc"><i class="fas fa-arrow-up ml-1"></i></a>
                   <a href="?sort_by_user=status&amp;direction=desc"><i class="fas fa-arrow-down"></i></a> {% endcomment %}
                 </th>
-                <th scope="col" class="sort" data-sort="status">Actions</th>
-                {% comment %} <th scope="col">Users</th>
-                <th scope="col" class="sort" data-sort="completion">Completion</th>
-                <th scope="col"></th> {% endcomment %}
+                <th class="text-center" scope="col" class="sort" data-sort="status">Actions</th>
+                {% comment %} <th class="text-center" scope="col">Users</th>
+                <th class="text-center" scope="col" class="sort" data-sort="completion">Completion</th>
+                <th class="text-center" scope="col"></th> {% endcomment %}
               </tr>
             </thead>
             <tbody class="list">
@@ -625,12 +624,9 @@
   </div>
   {% endif %}
 
+{% comment %} end of team list {% endcomment %}
 
-{% comment %} end of userlist {% endcomment %}
 
-  {% include "includes/footer.html" %}
-
-</div>
 
 {% endblock content %}
 
@@ -641,9 +637,57 @@
   <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+  <script src="/static/assets/js/plugins/datatables.js" type="text/javascript"></script>
 
+  {% comment %} datatables {% endcomment %}
 
   <script>
+
+    const dataTableSearch1 = new simpleDatatables.DataTable("#myTable1", {
+      searchable: true,
+      fixedHeight: true,
+      paging: false,
+      labels: {
+        placeholder: "Search Projects...",
+        searchTitle: "Search within Projects"
+      }
+    });
+
+    const dataTableSearch2 = new simpleDatatables.DataTable("#myTable2", {
+      searchable: true,
+      fixedHeight: true,
+      paging: false,
+      labels: {
+        placeholder: "Search Modules...",
+        searchTitle: "Search within Modules"
+      }
+    });
+
+    const dataTableSearch3 = new simpleDatatables.DataTable("#myTable3", {
+      searchable: true,
+      fixedHeight: true,
+      paging: false,
+      labels: {
+        placeholder: "Search Tasks...",
+        searchTitle: "Search within Tasks"
+      }
+    });
+
+    const dataTableSearch4 = new simpleDatatables.DataTable("#myTable4", {
+      searchable: true,
+      fixedHeight: true,
+      paging: false,
+      labels: {
+        placeholder: "Search Project Teams...",
+        searchTitle: "Search within Project Teams"
+      }
+    });
+
+  </script>
+
+ 
+
+  {% comment %} <script>
     function searchFromProject(){
       var input, filter, table, tr, td, i, txtValue;
       input = document.getElementById("myInput");
@@ -707,7 +751,7 @@
       }
     }
   
-  </script>
+  </script> {% endcomment %}
 
 
   <script>

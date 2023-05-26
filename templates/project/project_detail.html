@@ -75,7 +75,7 @@
                   </p>
                   <p class="mt-3 mb-0 text-sm">
                     <span class="text-nowrap font-weight-bold mr-1">Description : </span>
-                    <span class="text-nowrap text-success font-weight-bold"> {{ projectdetail.description }} </span>
+                    <span class="text-wrap text-success font-weight-bold"> {{ projectdetail.description }} </span>
                   </p>
                   <p class="mt-3 mb-0 text-sm">
                     <span class="text-nowrap font-weight-bold mr-1">Technology : </span>
@@ -198,7 +198,7 @@
                 </p>
                 <p class="mt-3 mb-0 text-sm">
                   <span class="text-nowrap font-weight-bold mr-1">Description : </span>
-                  <span class="text-nowrap text-success font-weight-bold"> {{ m.description }} </span>
+                  <span class="text-wrap text-success font-weight-bold"> {{ m.description }} </span>
                 </p>
                 <p class="mt-3 mb-0 text-sm">
                   <span class="text-nowrap font-weight-bold mr-1">Estimated Hours : </span>
@@ -308,7 +308,7 @@
                   </p>
                   <p class="mt-3 mb-0 text-sm">
                     <span class="text-nowrap font-weight-bold mr-1">Description : </span>
-                    <span class="text-nowrap text-success font-weight-bold"> {{ t.description }} </span>
+                    <span class="text-wrap text-success font-weight-bold"> {{ t.description }} </span>
                   </p>
                   <p class="mt-3 mb-0 text-sm">
                     <span class="text-nowrap font-weight-bold mr-1">Status : </span>
@@ -326,10 +326,6 @@
                   {% endif %}
                 </div>
 
-
-                {% if taskuser %}
-                {% for u in taskuser %}
-                {% if u.task_id == t.id %}
                 <!-- Card body -->
                 <div class="card-body">
                   <div class="row">
@@ -344,6 +340,31 @@
                         <i class="ni ni-single-02"></i>
                       </div>
                     </div>
+                  </div>
+                  {% comment %} <p class="mt-3 mb-0 text-sm text-center">
+                    <span class="text-nowrap font-weight-bold text-danger"> No Task User Available! </span>
+                  </p> {% endcomment %}
+                </div>
+
+
+
+                {% if taskuser %}
+                {% for u in taskuser %}
+                {% if u.task_id == t.id %}
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    {% comment %} <div class="col"> {% endcomment %}
+                      {% comment %} <h5 class="card-title text-uppercase text-muted mb-0">Task User information</h5> {% endcomment %}
+                      {% comment %} {% if request.user.is_manager == True %} {% endcomment %}
+                      {% comment %} <span class="h2 font-weight-bold mb-0"><a class="btn-sm btn-success text-white px-3 mb-0" href="{% url 'projecttaskusercreate' %}?next={{ request.path|urlencode }}"><i class="fas fa-plus mr-2"></i>Add</a></span> {% endcomment %}
+                      {% comment %} {% endif %} {% endcomment %}
+                    {% comment %} </div> {% endcomment %}
+                    {% comment %} <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                        <i class="ni ni-single-02"></i>
+                      </div>
+                    </div> {% endcomment %}
                   </div>
                   <p class="mt-3 mb-0 text-sm">
                     <span class="text-nowrap font-weight-bold mr-1">User : </span>

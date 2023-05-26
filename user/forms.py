@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.db import transaction
 from .models import User
 
@@ -124,7 +124,7 @@ class ProfileUpdateForm(UserCreationForm):
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
             'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email', 'readonly': 'True'}),
             # 'password1': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter Password'}),  # this is not working
             # 'password2': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Re-enter Password'}),  # this is not working
         }
@@ -141,3 +141,14 @@ class ProfileUpdateForm(UserCreationForm):
         user = super().save(commit=False)
         user.save()
         return user
+    
+
+class PasswordChangingForm(PasswordChangeForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['old_password'].widget = forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'type': 'password'})
+        self.fields['new_password1'].widget = forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'type': 'password'})
+        self.fields['new_password2'].widget = forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password', 'type': 'password'})

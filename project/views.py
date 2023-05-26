@@ -8,6 +8,7 @@ from user.decorators import *
 from django.db.models import Q
 from django.contrib import messages
 from django.http.response import JsonResponse
+from .filters import ProjectFilter, ModuleFilter, TaskFilter
 
 # Create your views here.
 # @login_required(login_url='/user/login')
@@ -106,7 +107,7 @@ class ManagerDashboardView(DetailView):
             projectteam = projectteam.order_by(f'-{sort_by_user}')
 
         
-        context = {'users_count': user.count(), 'projects_count': project_count.count(), 'projectteam_count': projectteam_count.count(), 'project': project[:5], 'projectteam': projectteam[:5], 'task_count': task_count.count(), 'userprojectcount': userproject.count(), 'usertaskcount': usertaskcount.count(), 'usermodulecount': usermodule.count(), 'usertask': usertask, 'usermodule': usermodule[:5], 'labels':labels[:5],'data':data[:5], 'labels_task':labels_task[:5],'data_task':data_task[:5]
+        context = {'users_count': user.count(), 'projects_count': project_count.count(), 'projectteam_count': projectteam_count.count(), 'project': project[:5], 'projectteam': projectteam[:5], 'task_count': task_count.count(), 'userprojectcount': userproject.count(), 'usertaskcount': usertaskcount.count(), 'usermodulecount': usermodule.count(), 'usertask': usertask[:5], 'usermodule': usermodule[:5], 'labels':labels[:5],'data':data[:5], 'labels_task':labels_task[:5],'data_task':data_task[:5]
                 }
         
         return render(request, self.template_name, context)
@@ -156,6 +157,8 @@ class ProjectListView(ListView):
         input = request.GET.get('input')
         print(input)
         projectlist = []
+
+
         if input:
             if self.request.user.is_manager == True:
                 projectlist = Project.objects.filter(Q(title__icontains=input) | Q(technology__icontains=input))
@@ -428,6 +431,21 @@ class ProjectModuleDeleteView(DeleteView):
     
     # success_url = 'project/projectteamlist'
 
+# @method_decorator([login_required(login_url='/user/login'), manager_required], name='dispatch')
+# class TaskPriorityCreateView(CreateView):
+#     model = Priority
+#     form_class = TaskPriorityCreationForm
+#     template_name = 'project/taskpriority_create.html'
+#     success_url = '/project/dashboard'
+
+#     def form_valid(self, form):
+#         return super().form_valid(form)
+    
+#     def get_success_url(self):
+#         next = self.request.POST.get('next', '/project/projectlist')
+#         messages.success(self.request, "Task Priority created successfully!")
+#         return next
+
 @method_decorator([login_required(login_url='/user/login'), manager_required], name='dispatch')
 class ProjectTaskCreateView(CreateView):
     model = Task
@@ -510,7 +528,8 @@ class ProjectTaskDetailView(DetailView):
     def get(self, request, *args, **kwargs):
         module = ProjectModule.objects.filter(project_id = self.kwargs['pk'])
         task = Task.objects.filter(project_id = self.kwargs['pk'])
-        return render(request, self.template_name, {'projecttaskdetail': self.get_object(), 'module':module, 'task':task})
+        taskuser = UserTask.objects.all()
+        return render(request, self.template_name, {'projecttaskdetail': self.get_object(), 'module':module, 'task':task, 'taskuser': taskuser})
 
 @method_decorator([login_required(login_url='/user/login'), manager_required], name='dispatch')
 class ProjectTaskDeleteView(DeleteView):
@@ -650,3 +669,49 @@ def searchproject(request):
                 return redirect(request.META.get('HTTP_REFERER'))
             
     return redirect(request.META.get('HTTP_REFERER'))
+
+
+
+@method_decorator([login_required(login_url='/user/login'), manager_required], name='dispatch')
+class ProjectReportView(ListView):
+    model = Project
+    template_name = 'project/project_report.html'
+    context_object_name = 'projectlist'
+    
+    def get(self, request, *args, **kwargs):
+        projectlist = Project.objects.all()
+       
+        myFilter = ProjectFilter(request.GET, queryset=projectlist)
+        projectlist = myFilter.qs
+
+        return render(request, self.template_name, {'projectlist': projectlist, 'myFilter': myFilter})
+    
+@method_decorator([login_required(login_url='/user/login'), manager_required], name='dispatch')
+class ModuleReportView(ListView):
+    model = Project
+    template_name = 'project/module_report.html'
+    context_object_name = 'projectmodulelist'
+    
+    def get(self, request, *args, **kwargs):
+        projectmodulelist = ProjectModule.objects.all()
+       
+        myFilter = ModuleFilter(request.GET, queryset=projectmodulelist)
+        projectmodulelist = myFilter.qs
+
+        return render(request, self.template_name, {'projectmodulelist': projectmodulelist, 'myFilter': myFilter})
+    
+@method_decorator([login_required(login_url='/user/login'), manager_required], name='dispatch')
+class TaskReportView(ListView):
+    model = Project
+    template_name = 'project/task_report.html'
+    context_object_name = 'projecttasklist'
+    
+    def get(self, request, *args, **kwargs):
+        projecttasklist = Task.objects.all()
+       
+        myFilter = TaskFilter(request.GET, queryset=projecttasklist)
+        projecttasklist = myFilter.qs
+
+        return render(request, self.template_name, {'projecttasklist': projecttasklist, 'myFilter': myFilter})
+    
+    

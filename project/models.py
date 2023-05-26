@@ -89,7 +89,7 @@ class Status(models.Model):
 class ProjectModule(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     moduleName = models.CharField(max_length=30, null=False)
-    description = models.CharField(max_length=30)
+    description = models.CharField(max_length=300)
     estimatedHours = models.PositiveIntegerField()
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
     startDate = models.DateField()
@@ -103,11 +103,24 @@ class ProjectModule(models.Model):
     class Meta:
         db_table = 'Project_module'
 
+# class Priority(models.Model):
+#     priorityName = models.CharField(max_length=20, null=False, unique=True)
+
+#     createdtime = models.DateTimeField(auto_now_add=True)
+#     updatedtime = models.DateTimeField(auto_now=True)
+
+#     def __str__(self):
+#         return self.priorityName
+
+#     class Meta:
+#         db_table = 'Priority'
+
 class Task(models.Model):
     module = models.ForeignKey(ProjectModule, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     priority = models.CharField(max_length=30)
+    # priority = models.ForeignKey(Priority, on_delete=models.CASCADE, null=True)
     description = models.CharField(max_length=500, null=False)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
     totalMinutes = models.PositiveIntegerField()

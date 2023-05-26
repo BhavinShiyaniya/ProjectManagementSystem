@@ -1086,3 +1086,405 @@ var Scrollbar = (function() {
 	}
 
 })();
+
+
+
+// added js
+
+var argon = {
+
+	datatableSimple: function() {
+        var t = {
+            columnDefs: [{
+                field: "athlete",
+                minWidth: 150,
+                sortable: !0,
+                filter: !0
+            }, {
+                field: "age",
+                maxWidth: 90,
+                sortable: !0,
+                filter: !0
+            }, {
+                field: "country",
+                minWidth: 150,
+                sortable: !0,
+                filter: !0
+            }, {
+                field: "year",
+                maxWidth: 90,
+                sortable: !0,
+                filter: !0
+            }, {
+                field: "date",
+                minWidth: 150,
+                sortable: !0,
+                filter: !0
+            }, {
+                field: "sport",
+                minWidth: 150,
+                sortable: !0,
+                filter: !0
+            }, {
+                field: "gold"
+            }, {
+                field: "silver"
+            }, {
+                field: "bronze"
+            }, {
+                field: "total"
+            }],
+            rowSelection: "multiple",
+            rowMultiSelectWithClick: !0,
+            rowData: [{
+                athlete: "Ronald Valencia",
+                age: 23,
+                country: "United States",
+                year: 2008,
+                date: "24/08/2008",
+                sport: "Swimming",
+                gold: 8,
+                silver: 0,
+                bronze: 0,
+                total: 8
+            }, {
+                athlete: "Lorand Frentz",
+                age: 19,
+                country: "United States",
+                year: 2004,
+                date: "29/08/2004",
+                sport: "Swimming",
+                gold: 6,
+                silver: 0,
+                bronze: 2,
+                total: 8
+            }, {
+                athlete: "Michael Phelps",
+                age: 27,
+                country: "United States",
+                year: 2012,
+                date: "12/08/2012",
+                sport: "Swimming",
+                gold: 4,
+                silver: 2,
+                bronze: 0,
+                total: 6
+            }, {
+                athlete: "Natalie Coughlin",
+                age: 25,
+                country: "United States",
+                year: 2008,
+                date: "24/08/2008",
+                sport: "Swimming",
+                gold: 1,
+                silver: 2,
+                bronze: 3,
+                total: 6
+            }, {
+                athlete: "Aleksey Nemov",
+                age: 24,
+                country: "Russia",
+                year: 2e3,
+                date: "01/10/2000",
+                sport: "Gymnastics",
+                gold: 2,
+                silver: 1,
+                bronze: 3,
+                total: 6
+            }, {
+                athlete: "Alicia Coutts",
+                age: 24,
+                country: "Australia",
+                year: 2012,
+                date: "12/08/2012",
+                sport: "Swimming",
+                gold: 1,
+                silver: 3,
+                bronze: 1,
+                total: 5
+            }, {
+                athlete: "Missy Franklin",
+                age: 17,
+                country: "United States",
+                year: 2012,
+                date: "12/08/2012",
+                sport: "Swimming",
+                gold: 4,
+                silver: 0,
+                bronze: 1,
+                total: 5
+            }, {
+                athlete: "Ryan Lochte",
+                age: 27,
+                country: "United States",
+                year: 2012,
+                date: "12/08/2012",
+                sport: "Swimming",
+                gold: 2,
+                silver: 2,
+                bronze: 1,
+                total: 5
+            }, {
+                athlete: "Allison Schmitt",
+                age: 22,
+                country: "United States",
+                year: 2012,
+                date: "12/08/2012",
+                sport: "Swimming",
+                gold: 3,
+                silver: 1,
+                bronze: 1,
+                total: 5
+            }, {
+                athlete: "Natalie Coughlin",
+                age: 21,
+                country: "United States",
+                year: 2004,
+                date: "29/08/2004",
+                sport: "Swimming",
+                gold: 2,
+                silver: 2,
+                bronze: 1,
+                total: 5
+            }, {
+                athlete: "Ian Thorpe",
+                age: 17,
+                country: "Australia",
+                year: 2e3,
+                date: "01/10/2000",
+                sport: "Swimming",
+                gold: 3,
+                silver: 2,
+                bronze: 0,
+                total: 5
+            }, {
+                athlete: "Dara Torres",
+                age: 33,
+                country: "United States",
+                year: 2e3,
+                date: "01/10/2000",
+                sport: "Swimming",
+                gold: 2,
+                silver: 0,
+                bronze: 3,
+                total: 5
+            }, {
+                athlete: "Cindy Klassen",
+                age: 26,
+                country: "Canada",
+                year: 2006,
+                date: "26/02/2006",
+                sport: "Speed Skating",
+                gold: 1,
+                silver: 2,
+                bronze: 2,
+                total: 5
+            }, {
+                athlete: "Nastia Liukin",
+                age: 18,
+                country: "United States",
+                year: 2008,
+                date: "24/08/2008",
+                sport: "Gymnastics",
+                gold: 1,
+                silver: 3,
+                bronze: 1,
+                total: 5
+            }, {
+                athlete: "Marit Bjørgen",
+                age: 29,
+                country: "Norway",
+                year: 2010,
+                date: "28/02/2010",
+                sport: "Cross Country Skiing",
+                gold: 3,
+                silver: 1,
+                bronze: 1,
+                total: 5
+            }, {
+                athlete: "Sun Yang",
+                age: 20,
+                country: "China",
+                year: 2012,
+                date: "12/08/2012",
+                sport: "Swimming",
+                gold: 2,
+                silver: 1,
+                bronze: 1,
+                total: 4
+            }]
+        };
+        document.addEventListener("DOMContentLoaded", function() {
+            var e = document.querySelector("#datatableSimple");
+            new agGrid.Grid(e,t)
+        })
+    },
+    showSwal: function(e) {
+        if ("basic" == e)
+            Swal.fire("Any fool can use a computer");
+        else if ("title-and-text" == e) {
+            const t = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn bg-gradient-success",
+                    cancelButton: "btn bg-gradient-danger"
+                }
+            });
+            t.fire({
+                title: "Sweet!",
+                text: "Modal with a custom image.",
+                imageUrl: "https://unsplash.it/400/200",
+                imageWidth: 400,
+                imageAlt: "Custom image"
+            })
+        } else if ("success-message" == e)
+            Swal.fire("Good job!", "You clicked the button!", "success");
+        else if ("warning-message-and-confirmation" == e) {
+            const a = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn bg-gradient-success",
+                    cancelButton: "btn bg-gradient-danger"
+                },
+                buttonsStyling: !1
+            });
+            a.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                type: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: !0
+            }).then(e=>{
+                e.value ? a.fire("Deleted!", "Your file has been deleted.", "success") : e.dismiss === Swal.DismissReason.cancel && a.fire("Cancelled", "Your imaginary file is safe :)", "error")
+            }
+            )
+        } else if ("warning-message-and-cancel" == e) {
+            const n = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn bg-gradient-success",
+                    cancelButton: "btn bg-gradient-danger"
+                },
+                buttonsStyling: !1
+            });
+            n.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "Yes, delete it!"
+            }).then(e=>{
+                e.isConfirmed && Swal.fire("Deleted!", "Your file has been deleted.", "success")
+            }
+            )
+        } else if ("custom-html" == e) {
+            const i = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn bg-gradient-success",
+                    cancelButton: "btn bg-gradient-danger"
+                },
+                buttonsStyling: !1
+            });
+            i.fire({
+                title: "<strong>HTML <u>example</u></strong>",
+                icon: "info",
+                html: 'You can use <b>bold text</b>, <a href="//sweetalert2.github.io">links</a> and other HTML tags',
+                showCloseButton: !0,
+                showCancelButton: !0,
+                focusConfirm: !1,
+                confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+                confirmButtonAriaLabel: "Thumbs up, great!",
+                cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+                cancelButtonAriaLabel: "Thumbs down"
+            })
+        } else if ("rtl-language" == e) {
+            const l = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn bg-gradient-success",
+                    cancelButton: "btn bg-gradient-danger"
+                },
+                buttonsStyling: !1
+            });
+            l.fire({
+                title: "هل تريد الاستمرار؟",
+                icon: "question",
+                iconHtml: "؟",
+                confirmButtonText: "نعم",
+                cancelButtonText: "لا",
+                showCancelButton: !0,
+                showCloseButton: !0
+            })
+        } else if ("auto-close" == e) {
+            let e;
+            Swal.fire({
+                title: "Auto close alert!",
+                html: "I will close in <b></b> milliseconds.",
+                timer: 2e3,
+                timerProgressBar: !0,
+                didOpen: ()=>{
+                    Swal.showLoading(),
+                    e = setInterval(()=>{
+                        const e = Swal.getHtmlContainer();
+                        if (e) {
+                            const t = e.querySelector("b");
+                            t && (t.textContent = Swal.getTimerLeft())
+                        }
+                    }
+                    , 100)
+                }
+                ,
+                willClose: ()=>{
+                    clearInterval(e)
+                }
+            }).then(e=>{
+                e.dismiss,
+                Swal.DismissReason.timer
+            }
+            )
+        } else if ("input-field" == e) {
+            const s = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn bg-gradient-success",
+                    cancelButton: "btn bg-gradient-danger"
+                },
+                buttonsStyling: !1
+            });
+            s.fire({
+                title: "Submit your Github username",
+                input: "text",
+                inputAttributes: {
+                    autocapitalize: "off"
+                },
+                showCancelButton: !0,
+                confirmButtonText: "Look up",
+                showLoaderOnConfirm: !0,
+                preConfirm: e=>fetch("//api.github.com/users/" + e).then(e=>{
+                    if (e.ok)
+                        return e.json();
+                    throw new Error(e.statusText)
+                }
+                ).catch(e=>{
+                    Swal.showValidationMessage("Request failed: " + e)
+                }
+                ),
+                allowOutsideClick: ()=>!Swal.isLoading()
+            }).then(e=>{
+                e.isConfirmed && Swal.fire({
+                    title: e.value.login + "'s avatar",
+                    imageUrl: e.value.avatar_url
+                })
+            }
+            )
+        }
+    }
+
+};
+
+function dropDown(e) {
+    if (!document.querySelector(".dropdown-hover")) {
+        event.stopPropagation(),
+        event.preventDefault();
+        for (var t = e.parentElement.parentElement.children, a = 0; a < t.length; a++)
+            t[a].lastElementChild != e.parentElement.lastElementChild && t[a].lastElementChild.classList.remove("show");
+        e.nextElementSibling.classList.contains("show") ? e.nextElementSibling.classList.remove("show") : e.nextElementSibling.classList.add("show")
+    }
+}
